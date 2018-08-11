@@ -109,11 +109,9 @@ public class BackpackController : MonoBehaviour {
             GameObject recipeIngredient2 = recipes[recipeNum, 1];
             GameObject recipeResult = recipes[recipeNum, 2];
             // @todo robustify this against names with "(Clone)"
-            if (recipeIngredient1.name.Equals(ingredient1.name) && recipeIngredient2.name.Equals(ingredient2.name)) {
-                Debug.Log("About to craft " + ingredient1.name + " + " + ingredient2.name + " into " + recipeResult.name + " @ " + destination.position);
-                GameObject result = Instantiate<GameObject>(recipeResult);
-                result.transform.position = destination.position;
-                Debug.Log("Created " + result + " @ " + result.transform.position);
+            if (recipeIngredient1.name.Equals(ingredient1.name) && recipeIngredient2.name.Equals(ingredient2.name)) {                
+                GameObject result = Instantiate<GameObject>(recipeResult, destination.position, destination.rotation);
+                Debug.Log("Crafted " + ingredient1.name + " + " + ingredient2.name + " into " + recipeResult.name);
                 GameObject.Destroy(ingredient1);
                 GameObject.Destroy(ingredient2);
                 return result;
