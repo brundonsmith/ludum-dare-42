@@ -47,6 +47,7 @@ public class BackpackController : MonoBehaviour {
         if(slot.x < 0 || slot.y < 0)
         {
             GameObject.Destroy(item);
+            Debug.Log(TotalHealthManaStamina());
             return false;
         } else { 
             Debug.Log(gameObject.name + " received, placing into slot " + slot);
@@ -54,11 +55,10 @@ public class BackpackController : MonoBehaviour {
             Vector2 itemSizeOffset = slotSize / 2;
             Vector2 slotOffset = slot * slotSize;
             Vector2 offset = offsetToOrigin + slotOffset + itemSizeOffset;
-            Debug.Log(offsetToOrigin + " " + slotOffset + " " + itemSizeOffset);
+            //Debug.Log(offsetToOrigin + " " + slotOffset + " " + itemSizeOffset);
             item.transform.localPosition = ZeroZ(offset);
             // check for overlap
-            ItemController[] itemControllers = FindObjectsOfType<ItemController>();
-            foreach (ItemController itemController in itemControllers)
+            foreach (ItemController itemController in FindObjectsOfType<ItemController>())
             {
                 if( item.GetComponent<ItemController>() != itemController) // it's ok to overlap yourself
                 {
@@ -94,6 +94,37 @@ public class BackpackController : MonoBehaviour {
             int resultY = (int)Math.Floor(floatyResult.y); // this is where we would flip Y if we wanted to
             return new Vector2Int(resultX, resultY);
         }
+    }
+
+    public int TotalHealth()
+    {
+        return TotalHealthManaStamina().x;
+    }
+
+    public int TotalMana()
+    {
+        return TotalHealthManaStamina().y;
+    }
+
+    public int TotalStamina()
+    {
+        return TotalHealthManaStamina().z;
+    }
+
+    private Vector3Int TotalHealthManaStamina()
+    // @return (healthBoost, manaBoost, staminaBoost) summed over all items in the backpack
+    {
+        Vector3Int total = new Vector3Int(0, 0, 0);
+        foreach (ItemController itemController in FindObjectsOfType<ItemController>())
+        {
+            if (gridSlot(itemController.transform.position).x > 0)
+            { // item is in backpack
+                total.x += itemController.healthBoost;
+                total.y += itemController.manaBoost;
+                total.z += itemController.staminaBoost;
+            }
+        }
+        return total;
     }
 
     // @todo promote to utilities
