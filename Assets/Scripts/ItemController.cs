@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemController : MonoBehaviour {
 
     // initialized, then left alone
-    private SpriteRenderer sprite;
+    //private SpriteRenderer sprite;
     private GameObject backpack;
     private BackpackController backpackController;
     
@@ -18,7 +18,7 @@ public class ItemController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        sprite = gameObject.GetComponent<SpriteRenderer>();
+        //sprite = gameObject.GetComponent<SpriteRenderer>();
         backpack = GameObject.Find("Backpack");
         backpackController = backpack.GetComponent<BackpackController>();
     }
