@@ -103,15 +103,17 @@ public class BackpackController : MonoBehaviour {
     // @param destination where to put the crafted item
     {
         int recipeNum;
+        string name1 = TypeName(ingredient1.name);
+        string name2 = TypeName(ingredient2.name);
         for (recipeNum = 0; recipeNum < recipes.GetLength(0); recipeNum++)
         {
             GameObject recipeIngredient1 = recipes[recipeNum, 0];
             GameObject recipeIngredient2 = recipes[recipeNum, 1];
             GameObject recipeResult = recipes[recipeNum, 2];
-            // @todo robustify this against names with "(Clone)"
-            if (recipeIngredient1.name.Equals(ingredient1.name) && recipeIngredient2.name.Equals(ingredient2.name)) {                
+            // we don't have to call TypeName on the recipe names because they never change
+            if (recipeIngredient1.name.Equals(name1) && recipeIngredient2.name.Equals(name2)) {   
                 GameObject result = Instantiate<GameObject>(recipeResult, destination.position, destination.rotation);
-                Debug.Log("Crafted " + ingredient1.name + " + " + ingredient2.name + " into " + recipeResult.name);
+                Debug.Log("Crafted " + ingredient1.name + " + " + ingredient2.name + " into " + result.name);
                 GameObject.Destroy(ingredient1);
                 GameObject.Destroy(ingredient2);
                 return result;
@@ -183,5 +185,18 @@ public class BackpackController : MonoBehaviour {
     public static Vector3 ZeroZ(Vector2 vec2)
     {
         return new Vector3(vec2.x, vec2.y, 0);
+    }
+
+    public static string TypeName(string str)
+    {
+        char[] stopChars = { '(' };
+        int index = str.IndexOfAny(stopChars);
+        if (index > 0)
+        {
+            return str.Substring(0, index);
+        } else
+        {
+            return str;
+        }
     }
 }
