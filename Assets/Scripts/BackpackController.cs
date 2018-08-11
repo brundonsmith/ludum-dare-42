@@ -22,7 +22,6 @@ public class BackpackController : MonoBehaviour {
         spriteSize = new Vector2(sprite.size.x, sprite.size.y);
         // assumes the backpack does not move or get resized. If it does, we'll need to update these.
         bottomLeftCorner = DropZ(transform.position) - spriteSize / 2;
-        // topRightCorner = DropZ(transform.position) + spriteSize / 2;
         slotSize = sprite.size / gridSize; 
     }
 
@@ -40,10 +39,13 @@ public class BackpackController : MonoBehaviour {
     public void ReceiveItemFromMouse(GameObject item)
         // This is called when the player is done dragging, and drops and item into an inventory slot. It will also get called on a single click: picking up an item and putting it right back.
     {
-        Vector3 itemPos = item.transform.position;
-        Debug.Log(gameObject.name + " received a " + item.name + " @ " + itemPos);
-        Vector2Int slot = gridSlot(itemPos);
-        Debug.Log("Placing item into slot " + slot);
+        Vector2 itemCenter = DropZ(item.transform.position);
+        SpriteRenderer itemSprite = item.GetComponent<SpriteRenderer>();
+        Vector2 itemSpriteSize = new Vector2(itemSprite.size.x, itemSprite.size.y);
+        Vector2 itemOrigin = itemCenter - itemSpriteSize / 2;
+        Vector2Int slot = gridSlot(itemOrigin);
+        Debug.Log(gameObject.name + " received, placing into slot " + slot);
+        // @todo snap to grid
     }
 
     private Vector2Int gridSlot(Vector3 worldPos3d)
@@ -54,9 +56,7 @@ public class BackpackController : MonoBehaviour {
     private Vector2Int gridSlot(Vector2 worldPos) {
         // returns which (x,y) backpack slot, with origin at top left,  is the best fit for worldPos, or (-1, -1) if worldPos is outside the backpack
         Vector2 offset = worldPos - bottomLeftCorner;
-        // @todo adjust for item sprite size
-        //Debug.Log("corners = " + bottomLeftCorner + " " + topRightCorner);
-        Debug.Log("offset = " + offset + " slotsize = " + slotSize + " spriteSize = " + spriteSize);
+        //Debug.Log("offset = " + offset + " slotsize = " + slotSize + " spriteSize = " + spriteSize);
         if (offset.x < 0 || offset.x > spriteSize.x
             || offset.y < 0 || offset.y > spriteSize.y)
         {
@@ -64,8 +64,8 @@ public class BackpackController : MonoBehaviour {
         } else
         { // inside the backpack
             Vector2 floatyResult = offset / slotSize;
-            int resultX = Convert.ToInt32(floatyResult.x);
-            int resultY = gridSize.y - 1 - Convert.ToInt32(floatyResult.y); // flip Y so the origin is at top left instead of bottom left
+            int resultX = (int)Math.Floor(floatyResult.x);
+            int resultY = gridSize.y - 1 - (int)Math.Floor(floatyResult.y); // flip Y so the origin is at top left instead of bottom left
             return new Vector2Int(resultX, resultY);
         }
     }
