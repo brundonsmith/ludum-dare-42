@@ -10,7 +10,6 @@ public class BackpackController : MonoBehaviour {
     private SpriteRenderer sprite;
     private Vector2 spriteSize;
     private Vector2 bottomLeftCorner;
-    private Vector2 topRightCorner;
     private Vector2 slotSize;
 
     // Variables
@@ -36,7 +35,8 @@ public class BackpackController : MonoBehaviour {
         return false; // @todo unstub   
     }
 
-    public void ReceiveItemFromMouse(GameObject item)
+    public bool ReceiveItemFromMouse(GameObject item)
+        // @return Did the item successfully drop?
         // This is called when the player is done dragging, and drops and item into an inventory slot. It will also get called on a single click: picking up an item and putting it right back.
     {
         Vector2 itemCenter = DropZ(item.transform.position);
@@ -44,17 +44,43 @@ public class BackpackController : MonoBehaviour {
         Vector2 itemSpriteSize = new Vector2(itemSprite.size.x, itemSprite.size.y);
         Vector2 itemOrigin = itemCenter - itemSpriteSize / 2;
         Vector2Int slot = gridSlot(itemOrigin);
-        Debug.Log(gameObject.name + " received, placing into slot " + slot);
-        // @todo snap to grid
+        if(slot.x < 0 || slot.y < 0)
+        {
+            GameObject.Destroy(item);
+            Debug.Log(TotalHealthManaStamina());
+            return false;
+        } else { 
+            Debug.Log(gameObject.name + " received, placing into slot " + slot);
+            Vector2 offsetToOrigin = -1 * spriteSize / 2;
+            Vector2 itemSizeOffset = slotSize / 2;
+            Vector2 slotOffset = slot * slotSize;
+            Vector2 offset = offsetToOrigin + slotOffset + itemSizeOffset;
+            //Debug.Log(offsetToOrigin + " " + slotOffset + " " + itemSizeOffset);
+            item.transform.localPosition = ZeroZ(offset);
+            // check for overlap
+            foreach (ItemController itemController in FindObjectsOfType<ItemController>())
+            {
+                if( item.GetComponent<ItemController>() != itemController) // it's ok to overlap yourself
+                {
+                    Vector2Int otherSlot = gridSlot(itemController.transform.position);
+                    if (slot == otherSlot)
+                    {
+                        // Here is where to implement crafting.
+                        return false; // overlap
+                    }
+                }
+            }
+            return true;
+        }
     }
 
-    private Vector2Int gridSlot(Vector3 worldPos3d)
-        // returns which (x,y) backpack slot, with origin at top left, is the best fit for worldPos, or null if worldPos is outside the backpack
+    public Vector2Int gridSlot(Vector3 worldPos3d)
+        // returns which (x,y) backpack slot, with origin at bottom left, is the best fit for worldPos, or (-1, -1) if worldPos is outside the backpack
     {
         return gridSlot(DropZ(worldPos3d));
     }
-    private Vector2Int gridSlot(Vector2 worldPos) {
-        // returns which (x,y) backpack slot, with origin at top left,  is the best fit for worldPos, or (-1, -1) if worldPos is outside the backpack
+    public Vector2Int gridSlot(Vector2 worldPos) {
+        // returns which (x,y) backpack slot, with origin at bottom left,  is the best fit for worldPos, or (-1, -1) if worldPos is outside the backpack
         Vector2 offset = worldPos - bottomLeftCorner;
         //Debug.Log("offset = " + offset + " slotsize = " + slotSize + " spriteSize = " + spriteSize);
         if (offset.x < 0 || offset.x > spriteSize.x
@@ -65,14 +91,50 @@ public class BackpackController : MonoBehaviour {
         { // inside the backpack
             Vector2 floatyResult = offset / slotSize;
             int resultX = (int)Math.Floor(floatyResult.x);
-            int resultY = gridSize.y - 1 - (int)Math.Floor(floatyResult.y); // flip Y so the origin is at top left instead of bottom left
+            int resultY = (int)Math.Floor(floatyResult.y); // this is where we would flip Y if we wanted to
             return new Vector2Int(resultX, resultY);
         }
+    }
+
+    public int TotalHealth()
+    {
+        return TotalHealthManaStamina().x;
+    }
+
+    public int TotalMana()
+    {
+        return TotalHealthManaStamina().y;
+    }
+
+    public int TotalStamina()
+    {
+        return TotalHealthManaStamina().z;
+    }
+
+    private Vector3Int TotalHealthManaStamina()
+    // @return (healthBoost, manaBoost, staminaBoost) summed over all items in the backpack
+    {
+        Vector3Int total = new Vector3Int(0, 0, 0);
+        foreach (ItemController itemController in FindObjectsOfType<ItemController>())
+        {
+            if (gridSlot(itemController.transform.position).x > 0)
+            { // item is in backpack
+                total.x += itemController.healthBoost;
+                total.y += itemController.manaBoost;
+                total.z += itemController.staminaBoost;
+            }
+        }
+        return total;
     }
 
     // @todo promote to utilities
     public static Vector2 DropZ(Vector3 vec3)
     {
         return new Vector2(vec3.x, vec3.y);
+    }
+
+    public static Vector3 ZeroZ(Vector2 vec2)
+    {
+        return new Vector3(vec2.x, vec2.y, 0);
     }
 }
