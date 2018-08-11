@@ -10,7 +10,6 @@ public class BackpackController : MonoBehaviour {
     private SpriteRenderer sprite;
     private Vector2 spriteSize;
     private Vector2 bottomLeftCorner;
-    private Vector2 topRightCorner;
     private Vector2 slotSize;
 
     // Variables
@@ -45,16 +44,21 @@ public class BackpackController : MonoBehaviour {
         Vector2 itemOrigin = itemCenter - itemSpriteSize / 2;
         Vector2Int slot = gridSlot(itemOrigin);
         Debug.Log(gameObject.name + " received, placing into slot " + slot);
-        // @todo snap to grid
+        Vector2 offsetToOrigin = -1 * spriteSize / 2;
+        Vector2 itemSizeOffset = slotSize / 2;
+        Vector2 slotOffset = slot * slotSize;
+        Vector2 offset = offsetToOrigin + slotOffset + itemSizeOffset;
+        Debug.Log(offsetToOrigin + " " + slotOffset + " " + itemSizeOffset);
+        item.transform.localPosition = ZeroZ(offset);
     }
 
     private Vector2Int gridSlot(Vector3 worldPos3d)
-        // returns which (x,y) backpack slot, with origin at top left, is the best fit for worldPos, or null if worldPos is outside the backpack
+        // returns which (x,y) backpack slot, with origin at bottom left, is the best fit for worldPos, or null if worldPos is outside the backpack
     {
         return gridSlot(DropZ(worldPos3d));
     }
     private Vector2Int gridSlot(Vector2 worldPos) {
-        // returns which (x,y) backpack slot, with origin at top left,  is the best fit for worldPos, or (-1, -1) if worldPos is outside the backpack
+        // returns which (x,y) backpack slot, with origin at bottom left,  is the best fit for worldPos, or (-1, -1) if worldPos is outside the backpack
         Vector2 offset = worldPos - bottomLeftCorner;
         //Debug.Log("offset = " + offset + " slotsize = " + slotSize + " spriteSize = " + spriteSize);
         if (offset.x < 0 || offset.x > spriteSize.x
@@ -65,7 +69,7 @@ public class BackpackController : MonoBehaviour {
         { // inside the backpack
             Vector2 floatyResult = offset / slotSize;
             int resultX = (int)Math.Floor(floatyResult.x);
-            int resultY = gridSize.y - 1 - (int)Math.Floor(floatyResult.y); // flip Y so the origin is at top left instead of bottom left
+            int resultY = (int)Math.Floor(floatyResult.y); // this is where we would flip Y if we wanted to
             return new Vector2Int(resultX, resultY);
         }
     }
@@ -74,5 +78,10 @@ public class BackpackController : MonoBehaviour {
     public static Vector2 DropZ(Vector3 vec3)
     {
         return new Vector2(vec3.x, vec3.y);
+    }
+
+    public static Vector3 ZeroZ(Vector2 vec2)
+    {
+        return new Vector3(vec2.x, vec2.y, 0);
     }
 }
