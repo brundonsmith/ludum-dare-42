@@ -8,9 +8,13 @@ public class ItemController : MonoBehaviour {
     private SpriteRenderer sprite;
     private GameObject backpack;
     private BackpackController backpackController;
-
+    
     // variables
     private bool isBeingDragged = false;
+    private Vector3 originalItemPosition;
+    public int healthBoost = 0;
+    public int manaBoost = 0;
+    public int staminaBoost = 0;
 
     // Use this for initialization
     void Start () {
@@ -32,6 +36,8 @@ public class ItemController : MonoBehaviour {
     void OnMouseDown()
     {
         isBeingDragged = true;
+        originalItemPosition = this.transform.position;
+        //originalItemGridSlot = backpackController.gridSlot(this.transform.position);
         //Debug.Log(gameObject.name + " is being dragged");
     }
 
@@ -39,7 +45,10 @@ public class ItemController : MonoBehaviour {
     {
         isBeingDragged = false;
 
-        backpackController.ReceiveItemFromMouse(gameObject);
+        if ( ! backpackController.ReceiveItemFromMouse(gameObject))
+        {
+            transform.position = originalItemPosition;
+        }
         /*
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
