@@ -39,7 +39,7 @@ public class Enemy : MonoBehaviour {
 				GameObject.Destroy(this.gameObject);
 			} else if(enemyTurn) {
 				// TODO: play animation
-				Debug.Log("Player took " + this.damage + " damage!");
+				Debug.Log("Hero took " + this.damage + " damage!");
 				bool stillAlive = backpackController.ConsumeHealth(this.damage);
 				if(!stillAlive) {
 					this.battling = false;
@@ -50,10 +50,10 @@ public class Enemy : MonoBehaviour {
 				// TODO: play animation
 				bool strongHit = backpackController.ConsumeStamina(StaminaPerAttack);
 				if(strongHit) {
-					Debug.Log("Player spent " + StaminaPerAttack + " stamina to do 2 damage!");
+					Debug.Log("Hero spent " + StaminaPerAttack + " stamina to do 2 damage!");
 					this.health -= 2;
 				} else {
-					Debug.Log("Player did 1 damage!");
+					Debug.Log("Hero did 1 damage!");
 					this.health -= 1;
 				}
 

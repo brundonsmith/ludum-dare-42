@@ -19,6 +19,7 @@ public class BackpackController : MonoBehaviour {
     public GameObject junk1;
     public GameObject junk2;
     private GameObject[,] recipes;
+    private readonly int potionBoostAmount = 3; // used for Consume logic
     private readonly Vector2Int gridSize = new Vector2Int(3, 3);
     private SpriteRenderer sprite;
     private MetersController metersController;
@@ -176,6 +177,8 @@ public class BackpackController : MonoBehaviour {
     // @param amt how much health the hero needs
     // @return Whether the full amount was successfully consumed. If this returns false, you die.
     {
+        Debug.Log("Hero needs " + amt + " HP!");
+        // no special case for TotalHealth; the hero will consume everything red in a last-ditch attempt to not die
         return Consume(amt, 0, 0);
     }
 
@@ -183,46 +186,115 @@ public class BackpackController : MonoBehaviour {
     // @param amt how much mana the hero needs
     // @return Whether the full amount was successfully consumed. If this returns false, your spell failed.
     {
-        return Consume(0, amt, 0);
+        Debug.Log("Hero needs " + amt + " mana!");
+        if (TotalMana() >= amt) { 
+            return Consume(0, amt, 0);
+        } else
+        {
+            return false; // I don't have enough for you, sorry!
+        }
     }
 
     public bool ConsumeStamina(int amt)
     // @param amt how much stamina the hero needs
     // @return Whether the full amount was successfully consumed. If this returns false, you slow down and/or your melee damage is reduced.
     {
-        return Consume(0, 0, amt);
+        Debug.Log("Hero needs " + amt + " stamina!");
+        if (TotalStamina() >= amt) { 
+            return Consume(0, 0, amt);
+        } else
+        {
+            return false; // I don't have enough for you, sorry!
+        }
     }
 
     public bool Consume(int healthToConsume, int manaToConsume, int staminaToConsume)
         // @return Whether all the full amounts were successfully consumed. Destroys (consumes) one or more items by side effect.
     {
-        // @todo consume intelligently instead of randomly
+        // first, drink potions until all needs are less than three <3
         foreach (ItemController itemController in FindObjectsOfType<ItemController>())
         {
             bool itemConsumed = false;
-            if (healthToConsume > 0)
+            if (healthToConsume >= potionBoostAmount && itemController.healthBoost >= potionBoostAmount)
             {
                 itemConsumed = true;
                 healthToConsume -= itemController.healthBoost;
             }
-            if (manaToConsume > 0)
+            if (manaToConsume >= potionBoostAmount && itemController.manaBoost >= potionBoostAmount)
             {
                 itemConsumed = true;
                 manaToConsume -= itemController.manaBoost;
             }
-            if (staminaToConsume > 0 )
+            if (staminaToConsume >= potionBoostAmount && itemController.staminaBoost >= potionBoostAmount)
             {
                 itemConsumed = true;
                 staminaToConsume -= itemController.staminaBoost;
             }  
             if (itemConsumed)
             {
-                PlayAudioClipOfConsumption(itemController);
-                GameObject.DestroyImmediate(itemController.gameObject);
+                ConsumeItemNow(itemController);
             }
         }
+
+        // next, eat mushrooms
+        foreach (ItemController itemController in FindObjectsOfType<ItemController>())
+        {
+            bool itemConsumed = false;
+            if (healthToConsume > 0 && itemController.healthBoost > 0 && itemController.healthBoost < potionBoostAmount)
+            {
+                itemConsumed = true;
+                healthToConsume -= itemController.healthBoost;
+            }
+            if (manaToConsume > 0 && itemController.manaBoost > 0 && itemController.manaBoost < potionBoostAmount)
+            {
+                itemConsumed = true;
+                manaToConsume -= itemController.manaBoost;
+            }
+            if (staminaToConsume > 0 && itemController.staminaBoost > 0 && itemController.staminaBoost < potionBoostAmount)
+            {
+                itemConsumed = true;
+                staminaToConsume -= itemController.staminaBoost;
+            }
+            if (itemConsumed)
+            {
+                ConsumeItemNow(itemController);
+            }
+        }
+
+        // if that's still not enough, consume whatever helps (some of which will overheal/overboost)
+        foreach (ItemController itemController in FindObjectsOfType<ItemController>())
+        {
+            bool itemConsumed = false;
+            if (healthToConsume > 0 && itemController.healthBoost > 0)
+            {
+                itemConsumed = true;
+                healthToConsume -= itemController.healthBoost;
+            }
+            if (manaToConsume > 0 && itemController.manaBoost > 0)
+            {
+                itemConsumed = true;
+                manaToConsume -= itemController.manaBoost;
+            }
+            if (staminaToConsume > 0 && itemController.staminaBoost > 0)
+            {
+                itemConsumed = true;
+                staminaToConsume -= itemController.staminaBoost;
+            }
+            if (itemConsumed)
+            {
+                ConsumeItemNow(itemController);
+            }
+        }
+
         NoteContentsChanged();
         return (healthToConsume <= 0 && manaToConsume <= 0 && staminaToConsume <= 0);
+    }
+
+    private void ConsumeItemNow(ItemController itemController)
+    {
+        Debug.Log("Hero consumed " + itemController.gameObject);
+        PlayAudioClipOfConsumption(itemController);
+        GameObject.DestroyImmediate(itemController.gameObject);
     }
 
     public bool ReceiveItemFromMouse(GameObject item)
@@ -315,7 +387,7 @@ public class BackpackController : MonoBehaviour {
     public void ReserveGridSlot(Vector3 worldPos3d)
     {
         reservedGridSlot = GridSlot(worldPos3d);
-        Debug.Log("Reserved grid slot " + reservedGridSlot);
+        //Debug.Log("Reserved grid slot " + reservedGridSlot);
     }
 
     public void ReleaseGridSlot()

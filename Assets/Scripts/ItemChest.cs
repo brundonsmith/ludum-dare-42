@@ -25,7 +25,7 @@ public class ItemChest : MonoBehaviour {
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
-		Debug.Log("Triggered chest");
+		//Debug.Log("Triggered chest");
 		if(other.name == "hero") {
 			BackpackController backpack = FindObjectOfType<BackpackController>();
 			backpack.ReceiveItemFromHero(Instantiate(this.ContainedItemPrefab, backpack.transform));
