@@ -104,9 +104,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13945bf56ba69324191aba3628fd1e8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sound: {fileID: 8300000, guid: 8a0bd166eb1001048a7dada5dfb32d4a, type: 3}
+  sound: {fileID: 8300000, guid: f9ac3beb7325b6c4d9e4a512e454ec37, type: 3}
   soundOfLoss: {fileID: 8300000, guid: c9e6bcb45a09e6c489b28073c25a1f72, type: 3}
   soundOfConsumption: {fileID: 8300000, guid: 43405a2d1301fc745947470985215ec6, type: 3}
+  isBeingDragged: 0
   healthBoost: 0
   manaBoost: 0
   staminaBoost: 0
