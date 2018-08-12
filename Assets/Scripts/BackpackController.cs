@@ -6,6 +6,7 @@ using UnityEngine;
 public class BackpackController : MonoBehaviour {
 
     // initialized once, then left alone
+    public GameObject meters;
     public GameObject redMushroom;
     public GameObject blueMushroom;
     public GameObject healthPotion;
@@ -18,6 +19,7 @@ public class BackpackController : MonoBehaviour {
     private GameObject[,] recipes;
     private readonly Vector2Int gridSize = new Vector2Int(3, 3);
     private SpriteRenderer sprite;
+    private MetersController metersController;
     private Vector2 spriteSize;
     private Vector2 bottomLeftCorner;
     private Vector2 slotSize;
@@ -27,6 +29,7 @@ public class BackpackController : MonoBehaviour {
     void Start() {
         sprite = gameObject.GetComponent<SpriteRenderer>();
         spriteSize = new Vector2(sprite.size.x, sprite.size.y);
+        metersController = meters.GetComponent<MetersController>();
         // assumes the backpack does not move or get resized. If it does, we'll need to update these.
         bottomLeftCorner = DropZ(transform.position) - spriteSize / 2;
         slotSize = sprite.size / gridSize;
@@ -38,11 +41,12 @@ public class BackpackController : MonoBehaviour {
             {redMushroom, blueMushroom, junk3},
             // @todo add more here
         };
+        NoteContentsChanged(); // to initialize
     }
 
     // Update is called once per frame
     void Update() {
-        
+      
     }
 
     public bool ReceiveItemFromHero(GameObject item)
@@ -88,6 +92,7 @@ public class BackpackController : MonoBehaviour {
 
             Debug.Log("...it fell into " + slot);
             SnapToGridSlot(item, slot);
+            NoteContentsChanged();
             item.GetComponent<ItemController>().PlayAudioClip();
             return true;
         }
@@ -104,8 +109,9 @@ public class BackpackController : MonoBehaviour {
         Vector2Int slot = GridSlot(itemOrigin);
         if(slot.x < 0 || slot.y < 0)
         {
-            GameObject.Destroy(item);
             item.GetComponent<ItemController>().PlayAudioClipOfLoss();
+            GameObject.DestroyImmediate(item); // must destroy immediately so the destroyed item will not count toward the totals
+            NoteContentsChanged();
             return false;
         } else { 
             Debug.Log(item.name + " received, placing into slot " + slot);
@@ -122,6 +128,7 @@ public class BackpackController : MonoBehaviour {
                         // if you can craft, make the crafted object sound. that counts as a successful drop so return true
                         if( craftingResult != null)
                         {
+                            NoteContentsChanged();
                             craftingResult.GetComponent<ItemController>().PlayAudioClip();
                             return true;
                         } else
@@ -163,13 +170,19 @@ public class BackpackController : MonoBehaviour {
             if (recipeIngredient1.name.Equals(name1) && recipeIngredient2.name.Equals(name2)) {   
                 GameObject result = Instantiate<GameObject>(recipeResult, destination.position, destination.rotation);
                 Debug.Log("Crafted " + ingredient1.name + " + " + ingredient2.name + " into " + result.name);
-                GameObject.Destroy(ingredient1);
-                GameObject.Destroy(ingredient2);
+                GameObject.DestroyImmediate(ingredient1); // must destroy immediately so the ingredients will not count toward the totals
+                GameObject.DestroyImmediate(ingredient2);
                 return result;
             }
         }
         // no recipes apply - fallthrough case
         return null;
+    }
+
+    // My contents have changed
+    private void NoteContentsChanged()
+    {
+        metersController.UpdateMeters();
     }
 
     public Vector2Int GridSlot(Vector3 worldPos3d)
@@ -225,11 +238,11 @@ public class BackpackController : MonoBehaviour {
         Vector3Int total = new Vector3Int(0, 0, 0);
         foreach (ItemController itemController in FindObjectsOfType<ItemController>())
         {
-            if (GridSlot(itemController.transform.position).x > 0)
+            if (GridSlot(itemController.transform.position).x >= 0)
             { // item is in backpack
-                total.x += itemController.healthBoost;
-                total.y += itemController.manaBoost;
-                total.z += itemController.staminaBoost;
+                Vector3Int boostVector = new Vector3Int(itemController.healthBoost, itemController.manaBoost, itemController.staminaBoost);
+                total += boostVector;
+                Debug.Log(itemController.gameObject.name + " in slot " + GridSlot(itemController.transform.position) + " contributes " + boostVector + " for a running total of " + total);
             }
         }
         return total;

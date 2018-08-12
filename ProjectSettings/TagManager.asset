@@ -41,9 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Backpack
+  - name: GUI backgroundy stuff
     uniqueID: 3570821101
     locked: 0
-  - name: Items
+  - name: GUI midgroundy stuff
+    uniqueID: 2027372827
+    locked: 0
+  - name: GUI foregroundy stuff
     uniqueID: 243734353
     locked: 0

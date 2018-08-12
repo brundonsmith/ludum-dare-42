@@ -49,7 +49,9 @@ public class ItemController : MonoBehaviour {
 
         if ( ! backpackController.ReceiveItemFromMouse(gameObject))
         {
-            transform.position = originalItemPosition;
+            if (this != null) { // @hack to robustify against DestroyImmediate destroying me in the middle of my OnMouseUp event
+                transform.position = originalItemPosition;
+            }
         }
     }
 
