@@ -22,6 +22,13 @@ public class ScrollManager : MonoBehaviour {
 		dirt_container = GameObject.Find("dirt_container");
 	}
 
+	void createDirtStrip(float positionChange){
+		float randomNum = Random.Range(0, dirtstripPrefabs.Length);
+		int index = Mathf.FloorToInt(randomNum);
+		GameObject new_dirt_strip = GameObject.Instantiate(dirtstripPrefabs[index], new Vector3(positionChange, 0, 0), Quaternion.identity);
+		new_dirt_strip.transform.parent = dirt_container.transform;
+	}
+
 	// Update is called once per frame
 	void Update () {
 		float speedChange = Time.deltaTime * scrollSpeed;
@@ -34,15 +41,13 @@ public class ScrollManager : MonoBehaviour {
 
 					//get starting placement of dirt_strip
 					float startingPosition = dirt_strip.position.x;
+					float positionChange = startingPosition + 21 - speedChange;
 
 					// destroy last dirt strip
 					GameObject.Destroy(dirt_strip.gameObject);
 
 					// randomly pick a dirt_strip from the array and create it at start of screen
-					float randomNum = Random.Range(0, dirtstripPrefabs.Length);
-					int index = Mathf.FloorToInt(randomNum);
-					GameObject new_dirt_strip = GameObject.Instantiate(dirtstripPrefabs[index], new Vector3(startingPosition + 19 - speedChange, 0, 0), Quaternion.identity);
-					new_dirt_strip.transform.parent = dirt_container.transform;
+					createDirtStrip(positionChange);
 
 				} else {
 					dirt_strip.position = dirt_strip.position - new Vector3(speedChange, 0, 0);
