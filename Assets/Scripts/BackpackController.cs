@@ -374,8 +374,8 @@ public class BackpackController : MonoBehaviour {
             GameObject recipeIngredient2 = recipes[recipeNum, 1];
             GameObject recipeResult = recipes[recipeNum, 2];
             // we don't have to call TypeName on the recipe names because they never change
-            if (recipeIngredient1.name.Equals(name1) && recipeIngredient2.name.Equals(name2)) {   
-                GameObject result = Instantiate<GameObject>(recipeResult, destination.position, destination.rotation);
+            if (recipeIngredient1.name.Equals(name1) && recipeIngredient2.name.Equals(name2)) {
+                GameObject result = Instantiate<GameObject>(recipeResult, destination.position, destination.rotation, gameObject.transform);
                 Debug.Log("Crafted " + ingredient1.name + " + " + ingredient2.name + " into " + result.name);
                 GameObject.DestroyImmediate(ingredient1); // must destroy immediately so the ingredients will not count toward the totals
                 GameObject.DestroyImmediate(ingredient2);
