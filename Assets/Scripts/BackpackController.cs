@@ -144,6 +144,8 @@ public class BackpackController : MonoBehaviour {
         {
             Debug.Log("...but I'm out of space!");
             PlayAudioClipOfLoss(item.GetComponent<ItemController>());
+            item.transform.position = new Vector3(-99999, -99999, -99999); // @hack if I can't destroy it immediately, just send it off the edge of the world
+            GameObject.Destroy(item);
             return false;
         } else
         {
@@ -349,7 +351,7 @@ public class BackpackController : MonoBehaviour {
         Vector2 itemSizeOffset = slotSize / 2;
         Vector2 slotOffset = slot * slotSize;
         Vector2 offset = offsetToOrigin + slotOffset + itemSizeOffset;
-        Debug.Log("SnapToGridSlot: " + offsetToOrigin + " " + slotOffset + " " + itemSizeOffset);
+        //Debug.Log("SnapToGridSlot: " + offsetToOrigin + " " + slotOffset + " " + itemSizeOffset);
         item.transform.localPosition = ZeroZ(offset);
     }
 
