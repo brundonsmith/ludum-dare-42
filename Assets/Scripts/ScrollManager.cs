@@ -20,11 +20,13 @@ public class ScrollManager : MonoBehaviour {
 	public GameObject[] enemyPrefabs;
 	public GameObject chestPrefab;
 
+	private GameObject hero;
 	private GameObject dirt_container;
 	private bool paused = false;
 
 	// Use this for initialization
 	void Start () {
+		hero = GameObject.Find("hero");
 		dirt_container = GameObject.Find("dirt_container");
 	}
 
@@ -78,10 +80,12 @@ public class ScrollManager : MonoBehaviour {
 
 	public void Pause() {
 		this.paused = true;
+		hero.GetComponent<Animator>().speed = 0;
 	}
 
 	public void Resume() {
 		this.paused = false;
+		hero.GetComponent<Animator>().speed = 1;
 	}
 
 	private float getMovement() {

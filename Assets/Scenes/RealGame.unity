@@ -747,10 +747,14 @@ MonoBehaviour:
     type: 2}
   blueMushroom: {fileID: 1036562652892756, guid: b5b965f43d500094cadacfb649ccb40a,
     type: 2}
+  greenMushroom: {fileID: 1036562652892756, guid: 52d850a12c52efb4cb2b03f48bcd305e,
+    type: 2}
   healthPotion: {fileID: 1913567198601666, guid: 07f7340d7fc8b2b4b9686a91086a3ba7,
     type: 2}
   manaPotion: {fileID: 1370069232694538, guid: cdab75634a5fd974d992e3083127c378, type: 2}
   staminaPotion: {fileID: 1537897498692906, guid: 33a99bf067667c340b4ab2d8d0f9519e,
+    type: 2}
+  uselessPotion: {fileID: 1537897498692906, guid: 8ad7844d9d4086241bdc7d1cbe3699b3,
     type: 2}
   gold: {fileID: 1913567198601666, guid: 70a70d454e37dab4697bd32380cc8630, type: 2}
   splat: {fileID: 1913567198601666, guid: 0b844dac301b3ec4db603a3922a1d7f9, type: 2}

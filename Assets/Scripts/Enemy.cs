@@ -34,31 +34,42 @@ public class Enemy : MonoBehaviour {
 			bool spellCast = backpackController.ConsumeMana(ManaPerAttack);
 			if(spellCast) {
 				// TODO: play animation
+				Debug.Log("Enemy died from spell!");
 				scrollManager.Resume();
 				GameObject.Destroy(this.gameObject);
 			} else if(enemyTurn) {
 				// TODO: play animation
-				backpackController.ConsumeHealth(this.damage);
+				Debug.Log("Player took " + this.damage + " damage!");
+				bool stillAlive = backpackController.ConsumeHealth(this.damage);
+				if(!stillAlive) {
+					this.battling = false;
+					GameObject.Destroy(GameObject.Find("hero"));
+					Debug.Log("Game Over");
+				}
 			} else {
 				// TODO: play animation
 				bool strongHit = backpackController.ConsumeStamina(StaminaPerAttack);
 				if(strongHit) {
+					Debug.Log("Player spent " + StaminaPerAttack + " stamina to do 2 damage!");
 					this.health -= 2;
 				} else {
+					Debug.Log("Player did 1 damage!");
 					this.health -= 1;
 				}
-			}
 
-			if(this.health <= 0) {
-				// TODO: play animation
-				scrollManager.Resume();
-				GameObject.Destroy(this.gameObject);
-			}
+				if(this.health <= 0) {
+					// TODO: play animation
+					Debug.Log("Enemy died from attack!");
+					scrollManager.Resume();
+					GameObject.Destroy(this.gameObject);
+				}
+			}			
 		}
 	}
 
 	void OnTriggerEnter2D(Collider2D other) {
 		if(other.name == "hero") {
+			Debug.Log("Battle started!");
 			scrollManager.Pause();
 			this.battling = true;
 			this.lastAction = Time.time;
