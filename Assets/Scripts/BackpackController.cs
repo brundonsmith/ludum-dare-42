@@ -13,9 +13,9 @@ public class BackpackController : MonoBehaviour {
     public GameObject manaPotion;
     public GameObject staminaPotion;
     public GameObject gold;
+    public GameObject splat;
     public GameObject junk1;
     public GameObject junk2;
-    public GameObject junk3;
     private GameObject[,] recipes;
     private readonly Vector2Int gridSize = new Vector2Int(3, 3);
     private SpriteRenderer sprite;
@@ -45,7 +45,7 @@ public class BackpackController : MonoBehaviour {
             // ingredient1 + ingredient2 = result
             {redMushroom, redMushroom, healthPotion},
             {blueMushroom, blueMushroom, manaPotion},
-            {redMushroom, blueMushroom, junk3},
+            {redMushroom, blueMushroom, splat},
             // @todo add more here
         };
         NoteContentsChanged(); // to initialize
