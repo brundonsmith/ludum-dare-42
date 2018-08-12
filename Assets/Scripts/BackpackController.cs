@@ -21,12 +21,10 @@ public class BackpackController : MonoBehaviour {
     private Vector2 spriteSize;
     private Vector2 bottomLeftCorner;
     private Vector2 slotSize;
-
-    // Variables
-    //private GameObject[,] itemGrid;
+    private System.Random rng = new System.Random();
 
     // Use this for initialization
-    void Start () {
+    void Start() {
         sprite = gameObject.GetComponent<SpriteRenderer>();
         spriteSize = new Vector2(sprite.size.x, sprite.size.y);
         // assumes the backpack does not move or get resized. If it does, we'll need to update these.
@@ -43,14 +41,53 @@ public class BackpackController : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update () {
-		
-	}
+    void Update() {
+        
+    }
 
     public bool ReceiveItemFromHero(GameObject item)
     // @return Whether item was successfully placed into the backpack
     {
-        return false; // @todo unstub   
+        Debug.Log("Received " + item.name + " from hero...");
+        // mark each slot as empty (false) or full (true);
+        bool[,] slotFull = new bool[gridSize.x, gridSize.y];
+        foreach (ItemController itemController in FindObjectsOfType<ItemController>())
+        {
+            Vector2Int slot = GridSlot(itemController.transform.position);
+            slotFull[slot.x, slot.y] = true;
+        }
+
+        // compute the number of available slots
+        int availableSlotCount = 0;
+        for(int x = 0; x < gridSize.x; x++)
+        {
+            for(int y = 0; y < gridSize.y; y++)
+            {
+                if (!slotFull[x, y]) availableSlotCount++;
+            }
+        }
+        if(availableSlotCount == 0)
+        {
+            Debug.Log("...but I'm out of space!");
+            return false;
+        } else
+        {
+            // pick an available slot at random
+            int slotIndex = rng.Next(0, availableSlotCount-1);
+            Vector2Int slot = new Vector2Int(0, 0);
+            for (int x = 0; x < gridSize.x; x++)
+            {
+                for (int y = 0; y < gridSize.y; y++)
+                {
+                    if (slotIndex == 0) slot = new Vector2Int(x, y);
+                    if (!slotFull[x, y]) slotIndex--;
+                }
+            }
+
+            Debug.Log("...it fell into " + slot);
+            SnapToGridSlot(item, slot);
+            return true;
+        }
     }
 
     public bool ReceiveItemFromMouse(GameObject item)
@@ -68,12 +105,7 @@ public class BackpackController : MonoBehaviour {
             return false;
         } else { 
             Debug.Log(item.name + " received, placing into slot " + slot);
-            Vector2 offsetToOrigin = -1 * spriteSize / 2;
-            Vector2 itemSizeOffset = slotSize / 2;
-            Vector2 slotOffset = slot * slotSize;
-            Vector2 offset = offsetToOrigin + slotOffset + itemSizeOffset;
-            //Debug.Log(offsetToOrigin + " " + slotOffset + " " + itemSizeOffset);
-            item.transform.localPosition = ZeroZ(offset);
+            SnapToGridSlot(item, slot);
             // check for overlap
             foreach (ItemController otherItemController in FindObjectsOfType<ItemController>())
             {
@@ -148,6 +180,16 @@ public class BackpackController : MonoBehaviour {
             int resultY = (int)Math.Floor(floatyResult.y); // this is where we would flip Y if we wanted to
             return new Vector2Int(resultX, resultY);
         }
+    }
+
+    private void SnapToGridSlot(GameObject item, Vector2Int slot)
+    {
+        Vector2 offsetToOrigin = -1 * spriteSize / 2;
+        Vector2 itemSizeOffset = slotSize / 2;
+        Vector2 slotOffset = slot * slotSize;
+        Vector2 offset = offsetToOrigin + slotOffset + itemSizeOffset;
+        //Debug.Log(offsetToOrigin + " " + slotOffset + " " + itemSizeOffset);
+        item.transform.localPosition = ZeroZ(offset);
     }
 
     public int TotalHealth()

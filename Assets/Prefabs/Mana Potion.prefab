@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthBoost: 0
-  manaBoost: 2
+  manaBoost: 3
   staminaBoost: 0
 --- !u!212 &212191387882035826
 SpriteRenderer:
