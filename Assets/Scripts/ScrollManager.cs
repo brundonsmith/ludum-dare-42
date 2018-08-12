@@ -56,19 +56,24 @@ public class ScrollManager : MonoBehaviour {
 
 			// possibly spawn enemy
 			if(Random.value < this.enemyChance) {
-				Instantiate(randomElement(enemyPrefabs), new Vector3(22, 0, 0), Quaternion.identity, dirt_container.transform);
+				GameObject newEnemy = Instantiate(randomElement(enemyPrefabs));
+				newEnemy.transform.parent = dirt_container.transform;
+				newEnemy.transform.localPosition = new Vector3(22, 0, 0);
 			}
 
 			// possibly spawn chest
 			if(Random.value < this.chestChance) {
-				Instantiate(chestPrefab, new Vector3(22, 0, 0), Quaternion.identity, dirt_container.transform);
+				GameObject newChest = Instantiate(chestPrefab);
+				newChest.transform.parent = dirt_container.transform;
+				newChest.transform.localPosition = new Vector3(22, 0, 0);
 			}
 		}
 	}
 
 	void createDirtStrip(float positionChange){
-		GameObject new_dirt_strip = GameObject.Instantiate(randomElement(dirtstripPrefabs), new Vector3(positionChange, 0, 0), Quaternion.identity);
+		GameObject new_dirt_strip = GameObject.Instantiate(randomElement(dirtstripPrefabs));
 		new_dirt_strip.transform.parent = dirt_container.transform;
+		new_dirt_strip.transform.localPosition = new Vector3(positionChange, 0, 0);
 	}
 
 	public void Pause() {

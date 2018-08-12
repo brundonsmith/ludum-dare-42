@@ -31,7 +31,12 @@ public class Enemy : MonoBehaviour {
 		if(this.battling && Time.time - lastAction > turnLength) {
 			lastAction = Time.time;
 
-			if(enemyTurn) {
+			bool spellCast = backpackController.ConsumeMana(ManaPerAttack);
+			if(spellCast) {
+				// TODO: play animation
+				scrollManager.Resume();
+				GameObject.Destroy(this.gameObject);
+			} else if(enemyTurn) {
 				// TODO: play animation
 				backpackController.ConsumeHealth(this.damage);
 			} else {
@@ -57,13 +62,6 @@ public class Enemy : MonoBehaviour {
 			scrollManager.Pause();
 			this.battling = true;
 			this.lastAction = Time.time;
-
-			bool spellCast = backpackController.ConsumeMana(ManaPerAttack);
-			if(spellCast) {
-				// TODO: play animation
-				scrollManager.Resume();
-				GameObject.Destroy(this.gameObject);
-			}
 		}
 	}
 }
