@@ -101,15 +101,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   openedSprite: {fileID: 21300000, guid: d9da811626708264d8d39ac0d4a95418, type: 3}
   backpackItemPrefabs:
-  - {fileID: 1036562652892756, guid: b5b965f43d500094cadacfb649ccb40a, type: 2}
   - {fileID: 1873453104688964, guid: 425baa2f3141ca14eb7611fa329d684b, type: 2}
-  - {fileID: 1370069232694538, guid: cdab75634a5fd974d992e3083127c378, type: 2}
-  - {fileID: 1913567198601666, guid: 07f7340d7fc8b2b4b9686a91086a3ba7, type: 2}
-  - {fileID: 1537897498692906, guid: 33a99bf067667c340b4ab2d8d0f9519e, type: 2}
+  - {fileID: 1036562652892756, guid: b5b965f43d500094cadacfb649ccb40a, type: 2}
+  - {fileID: 1036562652892756, guid: 52d850a12c52efb4cb2b03f48bcd305e, type: 2}
   - {fileID: 1913567198601666, guid: e001bc706eef0ff42bca5798b684452e, type: 2}
   - {fileID: 1913567198601666, guid: 0d91ac7187d7df04f8c1a5cecd8c7669, type: 2}
-  - {fileID: 1913567198601666, guid: 0b844dac301b3ec4db603a3922a1d7f9, type: 2}
-  - {fileID: 1036562652892756, guid: 52d850a12c52efb4cb2b03f48bcd305e, type: 2}
 --- !u!212 &212951462648505152
 SpriteRenderer:
   m_ObjectHideFlags: 1
