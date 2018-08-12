@@ -20,12 +20,19 @@ public class BackpackController : MonoBehaviour {
     private readonly Vector2Int gridSize = new Vector2Int(3, 3);
     private SpriteRenderer sprite;
     private MetersController metersController;
+    private AudioSource audioSource;
     private Vector2 spriteSize;
     private Vector2 bottomLeftCorner;
     private Vector2 slotSize;
     private System.Random rng = new System.Random();
 
-    // Use this for initialization
+    // Use this for initialization that only depends on this object and no other objects
+    private void Awake()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
+
+    // Use this for initialization that depends on other objects
     void Start() {
         sprite = gameObject.GetComponent<SpriteRenderer>();
         spriteSize = new Vector2(sprite.size.x, sprite.size.y);
@@ -74,7 +81,7 @@ public class BackpackController : MonoBehaviour {
         if(availableSlotCount == 0)
         {
             Debug.Log("...but I'm out of space!");
-            item.GetComponent<ItemController>().PlayAudioClipOfLoss();
+            PlayAudioClipOfLoss(item.GetComponent<ItemController>());
             return false;
         } else
         {
@@ -93,7 +100,7 @@ public class BackpackController : MonoBehaviour {
             Debug.Log("...it fell into " + slot);
             SnapToGridSlot(item, slot);
             NoteContentsChanged();
-            item.GetComponent<ItemController>().PlayAudioClip();
+            PlayAudioClip(item.GetComponent<ItemController>());
             return true;
         }
     }
@@ -109,7 +116,7 @@ public class BackpackController : MonoBehaviour {
         Vector2Int slot = GridSlot(itemOrigin);
         if(slot.x < 0 || slot.y < 0)
         {
-            item.GetComponent<ItemController>().PlayAudioClipOfLoss();
+            PlayAudioClipOfLoss(item.GetComponent<ItemController>());
             GameObject.DestroyImmediate(item); // must destroy immediately so the destroyed item will not count toward the totals
             NoteContentsChanged();
             return false;
@@ -129,17 +136,17 @@ public class BackpackController : MonoBehaviour {
                         if( craftingResult != null)
                         {
                             NoteContentsChanged();
-                            craftingResult.GetComponent<ItemController>().PlayAudioClip();
+                            PlayAudioClip(craftingResult.GetComponent<ItemController>());
                             return true;
                         } else
                         { // if you can't craft, make the dropped object sound. return false to snap the dropped object back to its original position
-                            item.GetComponent<ItemController>().PlayAudioClip();
+                            PlayAudioClip(item.GetComponent<ItemController>());
                             return false;
                         }
                     }
                 }
             }
-            item.GetComponent<ItemController>().PlayAudioClip();
+            PlayAudioClip(item.GetComponent<ItemController>());
             return true;
         }
     }
@@ -246,6 +253,17 @@ public class BackpackController : MonoBehaviour {
             }
         }
         return total;
+    }
+
+    public void PlayAudioClip(ItemController itemController)
+    {
+        //audioSource.pitch = Random.Range(lowPitchRange, highPitchRange);
+        audioSource.PlayOneShot(itemController.sound);
+    }
+
+    public void PlayAudioClipOfLoss(ItemController itemController)
+    {
+        audioSource.PlayOneShot(itemController.soundOfLoss);
     }
 
     // @todo promote to utilities

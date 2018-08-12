@@ -5,20 +5,19 @@ using UnityEngine;
 public class ItemController : MonoBehaviour {
 
     // initialized, then left alone
-    //private SpriteRenderer sprite;
+    public AudioClip sound; // the sound it makes when it's (re)placed in an open slot in the backpack, or when it's crafted
+    public AudioClip soundOfLoss; // the sound it makes when it's tossed out, or if there's no room for it in the backpack
     private GameObject backpack;
     private BackpackController backpackController;
-    
+
     // variables
     private bool isBeingDragged = false;
     private Vector3 originalItemPosition;
     public int healthBoost = 0;
     public int manaBoost = 0;
     public int staminaBoost = 0;
-    public AudioClip sound; // the sound it makes when it's (re)placed in an open slot in the backpack, or when it's crafted
-    public AudioClip soundOfLoss; // the sound it makes when it's tossed out, or if there's no room for it in the backpack
 
-    // Use this for initialization
+    // Use this for initialization that depends on other objects
     void Start () {
         //sprite = gameObject.GetComponent<SpriteRenderer>();
         backpack = GameObject.Find("Backpack");
@@ -55,16 +54,5 @@ public class ItemController : MonoBehaviour {
         }
     }
 
-    public void PlayAudioClip()
-    {
-        Debug.Log("I would really like to play this sound right now: " + sound);
-        // @todo implement
-    }
-
-    public void PlayAudioClipOfLoss()
-    {
-        Debug.Log("I would really like to play this sound of loss right now: " + soundOfLoss);
-        // @todo implement
-    }
 }
 
