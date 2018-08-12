@@ -2136,7 +2136,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1036562652892756, guid: b5b965f43d500094cadacfb649ccb40a, type: 2}
       propertyPath: m_Name
-      value: Blue Mushroom
+      value: Mushroom Blue
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
