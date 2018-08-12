@@ -349,7 +349,7 @@ public class BackpackController : MonoBehaviour {
         Vector2 itemSizeOffset = slotSize / 2;
         Vector2 slotOffset = slot * slotSize;
         Vector2 offset = offsetToOrigin + slotOffset + itemSizeOffset;
-        //Debug.Log(offsetToOrigin + " " + slotOffset + " " + itemSizeOffset);
+        Debug.Log("SnapToGridSlot: " + offsetToOrigin + " " + slotOffset + " " + itemSizeOffset);
         item.transform.localPosition = ZeroZ(offset);
     }
 

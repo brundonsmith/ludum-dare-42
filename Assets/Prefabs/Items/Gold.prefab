@@ -106,6 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sound: {fileID: 8300000, guid: 8a0bd166eb1001048a7dada5dfb32d4a, type: 3}
   soundOfLoss: {fileID: 8300000, guid: 069fbe6a8870f5e44a0a2e57671c833d, type: 3}
+  soundOfConsumption: {fileID: 0}
   healthBoost: 0
   manaBoost: 0
   staminaBoost: 0

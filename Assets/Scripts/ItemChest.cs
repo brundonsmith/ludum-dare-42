@@ -28,7 +28,7 @@ public class ItemChest : MonoBehaviour {
 		Debug.Log("Triggered chest");
 		if(other.name == "hero") {
 			BackpackController backpack = FindObjectOfType<BackpackController>();
-			backpack.ReceiveItemFromHero(Instantiate(this.ContainedItemPrefab));
+			backpack.ReceiveItemFromHero(Instantiate(this.ContainedItemPrefab, backpack.transform));
 			this.GetComponent<SpriteRenderer>().sprite = this.openedSprite;
 		}
 	}
