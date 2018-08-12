@@ -107,6 +107,8 @@ MonoBehaviour:
   healthBoost: 3
   manaBoost: 0
   staminaBoost: 0
+  sound: {fileID: 8300000, guid: 8a0bd166eb1001048a7dada5dfb32d4a, type: 3}
+  soundOfLoss: {fileID: 8300000, guid: 54086390d8518974fbe9b3d78bc3da15, type: 3}
 --- !u!212 &212930420243034716
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -47,6 +47,7 @@ public class BackpackController : MonoBehaviour {
 
     public bool ReceiveItemFromHero(GameObject item)
     // @return Whether item was successfully placed into the backpack
+    // @param item Assumes that item has already been Instantiated and is ready to be placed in the backpack. We can change that if we want.
     {
         Debug.Log("Received " + item.name + " from hero...");
         // mark each slot as empty (false) or full (true);
@@ -69,6 +70,7 @@ public class BackpackController : MonoBehaviour {
         if(availableSlotCount == 0)
         {
             Debug.Log("...but I'm out of space!");
+            item.GetComponent<ItemController>().PlayAudioClipOfLoss();
             return false;
         } else
         {
@@ -86,6 +88,7 @@ public class BackpackController : MonoBehaviour {
 
             Debug.Log("...it fell into " + slot);
             SnapToGridSlot(item, slot);
+            item.GetComponent<ItemController>().PlayAudioClip();
             return true;
         }
     }
@@ -102,6 +105,7 @@ public class BackpackController : MonoBehaviour {
         if(slot.x < 0 || slot.y < 0)
         {
             GameObject.Destroy(item);
+            item.GetComponent<ItemController>().PlayAudioClipOfLoss();
             return false;
         } else { 
             Debug.Log(item.name + " received, placing into slot " + slot);
@@ -115,12 +119,20 @@ public class BackpackController : MonoBehaviour {
                     if (slot == otherSlot)
                     {
                         GameObject craftingResult = Craft(item, otherItemController.gameObject); // crafts by side effect
-                        // if you can craft, that counts as a successful drop so return true
-                        // if you can't craft, return false to snap the dropped object back to its original position
-                        return (craftingResult != null); 
+                        // if you can craft, make the crafted object sound. that counts as a successful drop so return true
+                        if( craftingResult != null)
+                        {
+                            craftingResult.GetComponent<ItemController>().PlayAudioClip();
+                            return true;
+                        } else
+                        { // if you can't craft, make the dropped object sound. return false to snap the dropped object back to its original position
+                            item.GetComponent<ItemController>().PlayAudioClip();
+                            return false;
+                        }
                     }
                 }
             }
+            item.GetComponent<ItemController>().PlayAudioClip();
             return true;
         }
     }

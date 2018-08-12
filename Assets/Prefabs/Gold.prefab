@@ -37,7 +37,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1913567198601666}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1.9778, y: 1.9604001, z: 0}
+  m_LocalPosition: {x: -0.00000011920929, y: 2.0566664, z: 0}
   m_LocalScale: {x: 5.8, y: 5.8, z: 5.8}
   m_Children: []
   m_Father: {fileID: 0}
@@ -107,6 +107,8 @@ MonoBehaviour:
   healthBoost: 0
   manaBoost: 0
   staminaBoost: 0
+  sound: {fileID: 8300000, guid: 8a0bd166eb1001048a7dada5dfb32d4a, type: 3}
+  soundOfLoss: {fileID: 8300000, guid: 069fbe6a8870f5e44a0a2e57671c833d, type: 3}
 --- !u!212 &212930420243034716
 SpriteRenderer:
   m_ObjectHideFlags: 1

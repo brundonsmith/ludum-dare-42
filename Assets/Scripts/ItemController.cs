@@ -15,6 +15,8 @@ public class ItemController : MonoBehaviour {
     public int healthBoost = 0;
     public int manaBoost = 0;
     public int staminaBoost = 0;
+    public AudioClip sound; // the sound it makes when it's (re)placed in an open slot in the backpack, or when it's crafted
+    public AudioClip soundOfLoss; // the sound it makes when it's tossed out, or if there's no room for it in the backpack
 
     // Use this for initialization
     void Start () {
@@ -49,20 +51,18 @@ public class ItemController : MonoBehaviour {
         {
             transform.position = originalItemPosition;
         }
-        /*
-        Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 worldPos2D = new Vector2(worldPos.x, worldPos.y);
-        
-        RaycastHit2D hit = Physics2D.Raycast(worldPos2D, Vector2.zero);
-        if (hit.collider != null)
-        {
-            GameObject collidedObj = hit.collider.gameObject;
-            Debug.Log(gameObject.name + " dropped over a " + collidedObj.name);
-          
-
-        }
-        */
     }
 
+    public void PlayAudioClip()
+    {
+        Debug.Log("I would really like to play this sound right now: " + sound);
+        // @todo implement
+    }
+
+    public void PlayAudioClipOfLoss()
+    {
+        Debug.Log("I would really like to play this sound of loss right now: " + soundOfLoss);
+        // @todo implement
+    }
 }
 
