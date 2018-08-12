@@ -12,7 +12,7 @@ public class ItemController : MonoBehaviour {
     private BackpackController backpackController;
 
     // variables
-    private bool isBeingDragged = false;
+    public bool isBeingDragged = false;
     private Vector3 originalItemPosition;
     public int healthBoost = 0;
     public int manaBoost = 0;

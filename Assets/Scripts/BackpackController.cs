@@ -214,25 +214,28 @@ public class BackpackController : MonoBehaviour {
         // first, drink potions until all needs are less than three <3
         foreach (ItemController itemController in FindObjectsOfType<ItemController>())
         {
-            bool itemConsumed = false;
-            if (healthToConsume >= potionBoostAmount && itemController.healthBoost >= potionBoostAmount)
+            if (!itemController.isBeingDragged)
             {
-                itemConsumed = true;
-                healthToConsume -= itemController.healthBoost;
-            }
-            if (manaToConsume >= potionBoostAmount && itemController.manaBoost >= potionBoostAmount)
-            {
-                itemConsumed = true;
-                manaToConsume -= itemController.manaBoost;
-            }
-            if (staminaToConsume >= potionBoostAmount && itemController.staminaBoost >= potionBoostAmount)
-            {
-                itemConsumed = true;
-                staminaToConsume -= itemController.staminaBoost;
-            }  
-            if (itemConsumed)
-            {
-                ConsumeItemNow(itemController);
+                bool itemConsumed = false;
+                if (healthToConsume >= potionBoostAmount && itemController.healthBoost >= potionBoostAmount)
+                {
+                    itemConsumed = true;
+                    healthToConsume -= itemController.healthBoost;
+                }
+                if (manaToConsume >= potionBoostAmount && itemController.manaBoost >= potionBoostAmount)
+                {
+                    itemConsumed = true;
+                    manaToConsume -= itemController.manaBoost;
+                }
+                if (staminaToConsume >= potionBoostAmount && itemController.staminaBoost >= potionBoostAmount)
+                {
+                    itemConsumed = true;
+                    staminaToConsume -= itemController.staminaBoost;
+                }
+                if (itemConsumed)
+                {
+                    ConsumeItemNow(itemController);
+                }
             }
         }
 
@@ -240,49 +243,54 @@ public class BackpackController : MonoBehaviour {
         foreach (ItemController itemController in FindObjectsOfType<ItemController>())
         {
             bool itemConsumed = false;
-            if (healthToConsume > 0 && itemController.healthBoost > 0 && itemController.healthBoost < potionBoostAmount)
-            {
-                itemConsumed = true;
-                healthToConsume -= itemController.healthBoost;
-            }
-            if (manaToConsume > 0 && itemController.manaBoost > 0 && itemController.manaBoost < potionBoostAmount)
-            {
-                itemConsumed = true;
-                manaToConsume -= itemController.manaBoost;
-            }
-            if (staminaToConsume > 0 && itemController.staminaBoost > 0 && itemController.staminaBoost < potionBoostAmount)
-            {
-                itemConsumed = true;
-                staminaToConsume -= itemController.staminaBoost;
-            }
-            if (itemConsumed)
-            {
-                ConsumeItemNow(itemController);
+            if (! itemController.isBeingDragged) { 
+                if (healthToConsume > 0 && itemController.healthBoost > 0 && itemController.healthBoost < potionBoostAmount)
+                {
+                    itemConsumed = true;
+                    healthToConsume -= itemController.healthBoost;
+                }
+                if (manaToConsume > 0 && itemController.manaBoost > 0 && itemController.manaBoost < potionBoostAmount)
+                {
+                    itemConsumed = true;
+                    manaToConsume -= itemController.manaBoost;
+                }
+                if (staminaToConsume > 0 && itemController.staminaBoost > 0 && itemController.staminaBoost < potionBoostAmount)
+                {
+                    itemConsumed = true;
+                    staminaToConsume -= itemController.staminaBoost;
+                }
+                if (itemConsumed)
+                {
+                    ConsumeItemNow(itemController);
+                }
             }
         }
 
         // if that's still not enough, consume whatever helps (some of which will overheal/overboost)
         foreach (ItemController itemController in FindObjectsOfType<ItemController>())
         {
-            bool itemConsumed = false;
-            if (healthToConsume > 0 && itemController.healthBoost > 0)
+            if (!itemController.isBeingDragged)
             {
-                itemConsumed = true;
-                healthToConsume -= itemController.healthBoost;
-            }
-            if (manaToConsume > 0 && itemController.manaBoost > 0)
-            {
-                itemConsumed = true;
-                manaToConsume -= itemController.manaBoost;
-            }
-            if (staminaToConsume > 0 && itemController.staminaBoost > 0)
-            {
-                itemConsumed = true;
-                staminaToConsume -= itemController.staminaBoost;
-            }
-            if (itemConsumed)
-            {
-                ConsumeItemNow(itemController);
+                bool itemConsumed = false;
+                if (healthToConsume > 0 && itemController.healthBoost > 0)
+                {
+                    itemConsumed = true;
+                    healthToConsume -= itemController.healthBoost;
+                }
+                if (manaToConsume > 0 && itemController.manaBoost > 0)
+                {
+                    itemConsumed = true;
+                    manaToConsume -= itemController.manaBoost;
+                }
+                if (staminaToConsume > 0 && itemController.staminaBoost > 0)
+                {
+                    itemConsumed = true;
+                    staminaToConsume -= itemController.staminaBoost;
+                }
+                if (itemConsumed)
+                {
+                    ConsumeItemNow(itemController);
+                }
             }
         }
 
