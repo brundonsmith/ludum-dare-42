@@ -24,6 +24,8 @@ public class ScrollManager : MonoBehaviour {
 	private GameObject dirt_container;
 	private bool paused = false;
 
+	private float metersMoved = 0;
+
 	// Use this for initialization
 	void Start () {
 		hero = GameObject.Find("hero");
@@ -69,6 +71,8 @@ public class ScrollManager : MonoBehaviour {
 				newChest.transform.parent = dirt_container.transform;
 				newChest.transform.localPosition = new Vector3(22, 0, 0);
 			}
+
+			metersMoved += getMovement();
 		}
 	}
 
@@ -94,5 +98,13 @@ public class ScrollManager : MonoBehaviour {
 
 	private GameObject randomElement(GameObject[] arr) {
 		return arr[Mathf.FloorToInt(Random.Range(0, arr.Length))];
+	}
+
+	void OnGUI() {
+		GUIStyle style = new GUIStyle();
+		style.normal.textColor = Color.black;
+		style.fontSize = 24;
+		style.fontStyle = FontStyle.Bold;
+		GUI.Label(new Rect(10, 10, 100, 20), "Meters traveled: " + Mathf.Round(metersMoved), style);
 	}
 }
