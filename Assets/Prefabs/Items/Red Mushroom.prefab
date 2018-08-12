@@ -80,6 +80,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sound: {fileID: 8300000, guid: a6427ef4114262e40a256371b87ce19a, type: 3}
   soundOfLoss: {fileID: 8300000, guid: 54086390d8518974fbe9b3d78bc3da15, type: 3}
+  soundOfConsumption: {fileID: 8300000, guid: 1b8a8fb12972b6147b12dc356053d278, type: 3}
   healthBoost: 1
   manaBoost: 0
   staminaBoost: 0
