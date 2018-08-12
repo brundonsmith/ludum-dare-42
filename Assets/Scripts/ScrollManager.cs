@@ -19,9 +19,11 @@ public class ScrollManager : MonoBehaviour {
 	public GameObject[] dirtstripPrefabs;
 	public GameObject[] enemyPrefabs;
 	public GameObject chestPrefab;
+    public int pointsPerGold = 100; // how many points is each pile of gold coins worth?
 
 	private GameObject hero;
 	private GameObject dirt_container;
+    private BackpackController backpackController;
 	private bool paused = false;
 
 	private float metersMoved = 0;
@@ -30,7 +32,8 @@ public class ScrollManager : MonoBehaviour {
 	void Start () {
 		hero = GameObject.Find("hero");
 		dirt_container = GameObject.Find("dirt_container");
-	}
+        backpackController = GameObject.Find("Backpack").GetComponent<BackpackController>();
+    }
 
 	// Update is called once per frame
 	void Update () {
@@ -105,6 +108,11 @@ public class ScrollManager : MonoBehaviour {
 		style.normal.textColor = Color.black;
 		style.fontSize = 24;
 		style.fontStyle = FontStyle.Bold;
-		GUI.Label(new Rect(10, 10, 100, 20), "Meters traveled: " + Mathf.Round(metersMoved), style);
+		GUI.Label(new Rect(10, 10, 100, 20), "Score: " + Score(), style);
 	}
+
+    private int Score()
+    {
+        return (int)Mathf.Round(metersMoved) + backpackController.TotalGold() * pointsPerGold;
+    }
 }

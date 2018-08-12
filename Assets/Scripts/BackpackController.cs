@@ -466,6 +466,24 @@ public class BackpackController : MonoBehaviour {
         return total;
     }
 
+    public int TotalGold()
+        // @return The total number of gold items in the backpack
+    {
+        int total = 0;
+        foreach (ItemController itemController in FindObjectsOfType<ItemController>())
+        {
+            if (GridSlot(itemController.transform.position).x >= 0 || itemController.isBeingDragged)
+            { // item is in backpack (or being dragged)
+                string name = TypeName(itemController.name);
+                if(name.Equals("Gold"))
+                {
+                    total++;
+                }
+            }
+        }
+        return total;
+    }
+
     public void PlayAudioClip(ItemController itemController)
     {
         //audioSource.pitch = Random.Range(lowPitchRange, highPitchRange);
