@@ -893,6 +893,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e0c81fd1f5674cd5a99b9dbab2a923f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scrollSpeed: 3
+  enemyChance: 0.003
+  chestChance: 0.003
   dirtstripPrefabs:
   - {fileID: 1452377876153438, guid: 5177178f138a44773a64c6cf289ae09b, type: 2}
   - {fileID: 1622011502035254, guid: ec3b93d0112ba441ea1285eae0709968, type: 2}
@@ -912,7 +915,11 @@ MonoBehaviour:
   - {fileID: 1790042686023564, guid: eed688c6cc2284fdd8675ac3dd076926, type: 2}
   - {fileID: 1041280214402050, guid: d0003d74fc18340d4b2885aa602eebc4, type: 2}
   - {fileID: 1303133264297000, guid: 3d6d2019cfa71488495d1810cc63c679, type: 2}
-  scrollSpeed: 3
+  enemyPrefabs:
+  - {fileID: 1972211550828774, guid: 6afcae6867d9fe249b689a5e94452919, type: 2}
+  - {fileID: 1388571956422802, guid: 0715e262553cda64dbcc6780b9c2d35d, type: 2}
+  chestPrefab: {fileID: 1930341830964444, guid: d1db206ca5255e747bba71ea3f92cb60,
+    type: 2}
 --- !u!4 &1508009480
 Transform:
   m_ObjectHideFlags: 0
@@ -1114,6 +1121,56 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 7a8b9b046228342c7a764a42e5df4827, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &1716182351 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1266280763587460, guid: 5479f728ec64cde49a9fad8308778941,
+    type: 2}
+  m_PrefabInternal: {fileID: 833019970}
+--- !u!61 &1716182352
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1716182351}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.5}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0}
+    oldSize: {x: 1, y: 1}
+    newSize: {x: 4, y: 4}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
+--- !u!50 &1716182353
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1716182351}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &1764034360
 Prefab:
   m_ObjectHideFlags: 0
