@@ -105,28 +105,57 @@ public class BackpackController : MonoBehaviour {
         }
     }
 
-    public Vector3Int GiveItemToHero() // If we want the hero to choose intelligently, pass in whatever info we need to make that decision
-        // @return (healthBoost, manaBoost, staminaBoost) of the item the hero gets. Destroys (consumes) the item by side effect.
+    public bool ConsumeHealth(int amt)
+    // @param amt how much health the hero needs
+    // @return Whether the full amount was successfully consumed. If this returns false, you die.
     {
-        // select item
-        ItemController itemController = null;
-        foreach (ItemController otherItemController in FindObjectsOfType<ItemController>()) { 
-            itemController = otherItemController; // @todo unstub once we agree on the desired behavior
-        }
-        // done selecting item
-        
-        Vector3Int boostVector;
-        if (itemController == null)
-        { // backpack is empty
-            boostVector = new Vector3Int(0, 0, 0);
-        } else
+        return Consume(amt, 0, 0);
+    }
+
+    public bool ConsumeMana(int amt)
+    // @param amt how much mana the hero needs
+    // @return Whether the full amount was successfully consumed. If this returns false, your spell failed.
+    {
+        return Consume(0, amt, 0);
+    }
+
+    public bool ConsumeStamina(int amt)
+    // @param amt how much stamina the hero needs
+    // @return Whether the full amount was successfully consumed. If this returns false, you slow down and/or your melee damage is reduced.
+    {
+        return Consume(0, 0, amt);
+    }
+
+    public bool Consume(int healthToConsume, int manaToConsume, int staminaToConsume)
+        // @return Whether all the full amounts were successfully consumed. Destroys (consumes) one or more items by side effect.
+    {
+        // @todo consume intelligently instead of randomly
+        foreach (ItemController itemController in FindObjectsOfType<ItemController>())
         {
-            boostVector = new Vector3Int(itemController.healthBoost, itemController.manaBoost, itemController.staminaBoost);
+            bool itemConsumed = false;
+            if (healthToConsume > 0)
+            {
+                itemConsumed = true;
+                healthToConsume -= itemController.healthBoost;
+            }
+            if (manaToConsume > 0)
+            {
+                itemConsumed = true;
+                manaToConsume -= itemController.manaBoost;
+            }
+            if (staminaToConsume > 0 )
+            {
+                itemConsumed = true;
+                staminaToConsume -= itemController.staminaBoost;
+            }  
+            if (itemConsumed)
+            {
+                PlayAudioClipOfConsumption(itemController);
+                GameObject.DestroyImmediate(itemController.gameObject);
+            }
         }
         NoteContentsChanged();
-        PlayAudioClipOfConsumption(itemController);
-        GameObject.DestroyImmediate(itemController.gameObject);
-        return boostVector;
+        return (healthToConsume <= 0 && manaToConsume <= 0 && staminaToConsume <= 0);
     }
 
     public bool ReceiveItemFromMouse(GameObject item)
