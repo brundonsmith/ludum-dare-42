@@ -9,9 +9,11 @@ public class BackpackController : MonoBehaviour {
     public GameObject meters;
     public GameObject redMushroom;
     public GameObject blueMushroom;
+    public GameObject greenMushroom;
     public GameObject healthPotion;
     public GameObject manaPotion;
     public GameObject staminaPotion;
+    public GameObject uselessPotion;
     public GameObject gold;
     public GameObject splat;
     public GameObject junk1;
@@ -43,10 +45,64 @@ public class BackpackController : MonoBehaviour {
         recipes = new GameObject[,]
         {
             // ingredient1 + ingredient2 = result
-            {redMushroom, redMushroom, healthPotion},
-            {blueMushroom, blueMushroom, manaPotion},
-            {redMushroom, blueMushroom, splat},
-            // @todo add more here
+            
+            // useful recipes
+            
+            // mushroom + mushroom
+            {redMushroom,   redMushroom,   healthPotion},
+            {blueMushroom,  blueMushroom,  manaPotion},
+            {greenMushroom, greenMushroom, staminaPotion},
+
+            // neutral recipes
+
+            // potion + mushroom
+            {healthPotion,  redMushroom,   healthPotion },
+            {manaPotion,    blueMushroom,  manaPotion },
+            {staminaPotion, greenMushroom, staminaPotion },
+
+            // potion + potion
+            /*
+            {healthPotion,  healthPotion,  healthPotion },
+            {manaPotion,    manaPotion,    manaPotion },
+            {staminaPotion, staminaPotion, staminaPotion },
+            */
+
+            // failure recipes
+
+            // mushroom + mushroom
+            {redMushroom,   blueMushroom,  splat},
+            {redMushroom,   greenMushroom, splat},
+            {blueMushroom,  greenMushroom, splat},
+
+            // potion + mushroom
+            {healthPotion,  blueMushroom,  uselessPotion },
+            {healthPotion,  greenMushroom, uselessPotion },
+            {manaPotion,    redMushroom,   uselessPotion },
+            {manaPotion,    greenMushroom, uselessPotion },
+            {staminaPotion, redMushroom,   uselessPotion },
+            {staminaPotion, blueMushroom,  uselessPotion },
+
+            // potion + potion
+            /*
+            {healthPotion,  manaPotion,    uselessPotion },
+            {manaPotion,    staminaPotion, uselessPotion },
+            {staminaPotion, healthPotion,  uselessPotion },
+            */
+
+            // uselessPotion + anything
+            /*
+            {uselessPotion, redMushroom,   uselessPotion },
+            {uselessPotion, blueMushroom,  uselessPotion },
+            {uselessPotion, greenMushroom, uselessPotion },
+            {uselessPotion, healthPotion,  uselessPotion },
+            {uselessPotion, manaPotion,    uselessPotion },
+            {uselessPotion, staminaPotion, uselessPotion },
+            {uselessPotion, uselessPotion, uselessPotion },
+            {uselessPotion, junk1,         uselessPotion },
+            {uselessPotion, junk2,         uselessPotion },
+            {uselessPotion, splat,         uselessPotion },
+            {uselessPotion, gold,          uselessPotion },
+            */
         };
         NoteContentsChanged(); // to initialize
     }
