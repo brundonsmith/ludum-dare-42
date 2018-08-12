@@ -8,13 +8,10 @@ public class MetersController : MonoBehaviour {
     public GameObject manaBar;
     public GameObject staminaBar;
     public int max = 10; // Must be at least 1. More than MAX units of any stat will not be displayed.
-    private GameObject backpack;
     private BackpackController backpackController;
 
     // Use this for initialization
     void Start () {
-        backpack = GameObject.Find("Backpack");
-        backpackController = backpack.GetComponent<BackpackController>();
         UpdateMeters();
     }
 	
@@ -26,6 +23,9 @@ public class MetersController : MonoBehaviour {
     // to be called whenever the contents of the backpack change
     public void UpdateMeters()
     {
+        if(backpackController == null) {
+            backpackController = FindObjectOfType<BackpackController>();
+        }
         UpdateMeter(healthBar,  backpackController.TotalHealth());
         UpdateMeter(manaBar,    backpackController.TotalMana());
         UpdateMeter(staminaBar, backpackController.TotalStamina());
