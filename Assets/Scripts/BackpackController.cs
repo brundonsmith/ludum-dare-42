@@ -27,6 +27,7 @@ public class BackpackController : MonoBehaviour {
     private Vector2 bottomLeftCorner;
     private Vector2 slotSize;
     private System.Random rng = new System.Random();
+    private Vector2Int reservedGridSlot = new Vector2Int(-1, -1);
 
     // Use this for initialization that only depends on this object and no other objects
     private void Awake()
@@ -127,11 +128,14 @@ public class BackpackController : MonoBehaviour {
 
         // compute the number of available slots
         int availableSlotCount = 0;
-        for(int x = 0; x < gridSize.x; x++)
+        for (int x = 0; x < gridSize.x; x++)
         {
             for(int y = 0; y < gridSize.y; y++)
             {
-                if (!slotFull[x, y]) availableSlotCount++;
+                if (! (x == reservedGridSlot.x && y == reservedGridSlot.y)) { 
+                    if (!slotFull[x, y])
+                        availableSlotCount++;
+                }
             }
         }
         if(availableSlotCount == 0)
@@ -148,8 +152,11 @@ public class BackpackController : MonoBehaviour {
             {
                 for (int y = 0; y < gridSize.y; y++)
                 {
-                    if (slotIndex == 0) slot = new Vector2Int(x, y);
-                    if (!slotFull[x, y]) slotIndex--;
+                    if (!(x == reservedGridSlot.x && y == reservedGridSlot.y))
+                    {
+                        if (slotIndex == 0) slot = new Vector2Int(x, y);
+                        if (!slotFull[x, y]) slotIndex--;
+                    }
                 }
             }
 
@@ -299,6 +306,17 @@ public class BackpackController : MonoBehaviour {
     private void NoteContentsChanged()
     {
         metersController.UpdateMeters();
+    }
+
+    public void ReserveGridSlot(Vector3 worldPos3d)
+    {
+        reservedGridSlot = GridSlot(worldPos3d);
+        Debug.Log("Reserved grid slot " + reservedGridSlot);
+    }
+
+    public void ReleaseGridSlot()
+    {
+        reservedGridSlot = new Vector2Int(-1, -1);
     }
 
     public Vector2Int GridSlot(Vector3 worldPos3d)

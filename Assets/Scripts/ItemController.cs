@@ -39,20 +39,21 @@ public class ItemController : MonoBehaviour {
     {
         isBeingDragged = true;
         originalItemPosition = this.transform.position;
-        //originalItemGridSlot = backpackController.gridSlot(this.transform.position);
-        //Debug.Log(gameObject.name + " is being dragged");
+        backpackController.ReserveGridSlot(originalItemPosition);
     }
 
     void OnMouseUp()
     {
         isBeingDragged = false;
 
+        BackpackController theBackpackController = backpackController; // @hack to robustify against DestroyImmediate destroying me in the middle of my OnMouseUp event
         if ( ! backpackController.ReceiveItemFromMouse(gameObject))
         {
             if (this != null) { // @hack to robustify against DestroyImmediate destroying me in the middle of my OnMouseUp event
                 transform.position = originalItemPosition;
             }
         }
+        theBackpackController.ReleaseGridSlot();
     }
 
 }
