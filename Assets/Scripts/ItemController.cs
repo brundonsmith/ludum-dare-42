@@ -6,7 +6,8 @@ public class ItemController : MonoBehaviour {
 
     // initialized, then left alone
     public AudioClip sound; // the sound it makes when it's (re)placed in an open slot in the backpack, or when it's crafted
-    public AudioClip soundOfLoss; // the sound it makes when it's tossed out, or if there's no room for it in the backpack
+    public AudioClip soundOfLoss; // the sound it makes when it gets forcibly ejected from the backpack due to overfilling
+    public AudioClip soundOfConsumption; // the sound it makes when it's consumed by the hero
     private GameObject backpack;
     private BackpackController backpackController;
 

@@ -105,6 +105,30 @@ public class BackpackController : MonoBehaviour {
         }
     }
 
+    public Vector3Int GiveItemToHero() // If we want the hero to choose intelligently, pass in whatever info we need to make that decision
+        // @return (healthBoost, manaBoost, staminaBoost) of the item the hero gets. Destroys (consumes) the item by side effect.
+    {
+        // select item
+        ItemController itemController = null;
+        foreach (ItemController otherItemController in FindObjectsOfType<ItemController>()) { 
+            itemController = otherItemController; // @todo unstub once we agree on the desired behavior
+        }
+        // done selecting item
+        
+        Vector3Int boostVector;
+        if (itemController == null)
+        { // backpack is empty
+            boostVector = new Vector3Int(0, 0, 0);
+        } else
+        {
+            boostVector = new Vector3Int(itemController.healthBoost, itemController.manaBoost, itemController.staminaBoost);
+        }
+        NoteContentsChanged();
+        PlayAudioClipOfConsumption(itemController);
+        GameObject.DestroyImmediate(itemController.gameObject);
+        return boostVector;
+    }
+
     public bool ReceiveItemFromMouse(GameObject item)
         // @return Did the item successfully drop?
         // This is called when the player is done dragging, and drops and item into an inventory slot. It will also get called on a single click: picking up an item and putting it right back.
@@ -264,6 +288,11 @@ public class BackpackController : MonoBehaviour {
     public void PlayAudioClipOfLoss(ItemController itemController)
     {
         audioSource.PlayOneShot(itemController.soundOfLoss);
+    }
+
+    public void PlayAudioClipOfConsumption(ItemController itemController)
+    {
+        audioSource.PlayOneShot(itemController.soundOfConsumption);
     }
 
     // @todo promote to utilities
