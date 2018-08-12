@@ -39,7 +39,7 @@ public class MetersController : MonoBehaviour {
             debugString = debugString + " (capped at " + max + ")";
             totalStatValue = max;
         }
-        Debug.Log(debugString);
+        //Debug.Log(debugString);
         meter.transform.localScale = X11((float) totalStatValue / max);
     }
 

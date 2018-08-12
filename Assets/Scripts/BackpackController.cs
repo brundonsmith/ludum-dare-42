@@ -249,7 +249,7 @@ public class BackpackController : MonoBehaviour {
             { // item is in backpack
                 Vector3Int boostVector = new Vector3Int(itemController.healthBoost, itemController.manaBoost, itemController.staminaBoost);
                 total += boostVector;
-                Debug.Log(itemController.gameObject.name + " in slot " + GridSlot(itemController.transform.position) + " contributes " + boostVector + " for a running total of " + total);
+                //Debug.Log(itemController.gameObject.name + " in slot " + GridSlot(itemController.transform.position) + " contributes " + boostVector + " for a running total of " + total);
             }
         }
         return total;
