@@ -123,7 +123,9 @@ public class BackpackController : MonoBehaviour {
         foreach (ItemController itemController in FindObjectsOfType<ItemController>())
         {
             Vector2Int slot = GridSlot(itemController.transform.position);
-            slotFull[slot.x, slot.y] = true;
+                if (slot.x >= 0 && slot.y >= 0) { 
+                    slotFull[slot.x, slot.y] = true;
+            }
         }
 
         // compute the number of available slots
