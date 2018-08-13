@@ -36,8 +36,8 @@ public class Enemy : MonoBehaviour {
 			if(spellCast) {
 				Instantiate(spellBlastPrefab, GameObject.Find("hero").transform.position + new Vector3(0, 0.5f, -3), Quaternion.identity);
 				Debug.Log("Enemy died from spell!");
-				scrollManager.Resume();
 				GameObject.Destroy(this.gameObject);
+				scrollManager.Resume();
 			} else if(enemyTurn) {
 				this.GetComponentInChildren<Animation>().Play("Attack");
 				Debug.Log("Hero took " + this.damage + " damage!");
@@ -63,8 +63,8 @@ public class Enemy : MonoBehaviour {
 
 				if(this.health <= 0) {
 					Debug.Log("Enemy died from attack!");
-					scrollManager.Resume();
 					GameObject.Destroy(this.gameObject);
+					scrollManager.Resume();
 				}
 				enemyTurn = true;
 			}			

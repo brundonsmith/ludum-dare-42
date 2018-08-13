@@ -121,6 +121,7 @@ public class ScrollManager : MonoBehaviour {
 
 	public void GameOver() {
 		this.gameOver = true;
+		hero.GetComponentInChildren<Animator>().SetBool("Walking", false);
 	}
 
 	private float getMovement() {
@@ -142,10 +143,10 @@ public class ScrollManager : MonoBehaviour {
 		} else {
 			GUIStyle gameOverStyle = new GUIStyle();
 			gameOverStyle.normal.textColor = Color.red;
-			gameOverStyle.fontSize = 72;
+			gameOverStyle.fontSize = 64;
 			gameOverStyle.fontStyle = FontStyle.Bold;
 			gameOverStyle.alignment = TextAnchor.LowerCenter;
-			GUI.Label(new Rect(Screen.width / 2, Screen.height / 2, 100, 20), "You Are Now Strapped To A Corpse", gameOverStyle);
+			GUI.Label(new Rect(Screen.width / 2, Screen.height / 2, 100, 20), "You Are Now\nStrapped To A Corpse", gameOverStyle);
 			
 			GUIStyle scoreStyle = new GUIStyle();
 			scoreStyle.normal.textColor = Color.white;
