@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1758,7 +1758,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scrollSpeed: 3
   enemyChance: 0.003
-  chestChance: 0.005
+  chestChance: 0.015
   dirtstripPrefabs:
   - {fileID: 1452377876153438, guid: 5177178f138a44773a64c6cf289ae09b, type: 2}
   - {fileID: 1622011502035254, guid: ec3b93d0112ba441ea1285eae0709968, type: 2}
