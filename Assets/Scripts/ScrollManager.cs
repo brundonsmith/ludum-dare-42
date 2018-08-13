@@ -111,12 +111,12 @@ public class ScrollManager : MonoBehaviour {
 
 	public void Pause() {
 		this.paused = true;
-		hero.GetComponent<Animator>().speed = 0;
+		hero.GetComponentInChildren<Animator>().SetBool("Walking", false);
 	}
 
 	public void Resume() {
 		this.paused = false;
-		hero.GetComponent<Animator>().speed = 1;
+		hero.GetComponentInChildren<Animator>().SetBool("Walking", true);
 	}
 
 	public void GameOver() {
