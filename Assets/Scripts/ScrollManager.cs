@@ -145,7 +145,7 @@ public class ScrollManager : MonoBehaviour {
 			gameOverStyle.fontSize = 72;
 			gameOverStyle.fontStyle = FontStyle.Bold;
 			gameOverStyle.alignment = TextAnchor.LowerCenter;
-			GUI.Label(new Rect(Screen.width / 2, Screen.height / 2, 100, 20), "You Are Strapped To A Corpse", gameOverStyle);
+			GUI.Label(new Rect(Screen.width / 2, Screen.height / 2, 100, 20), "You Are Now Strapped To A Corpse", gameOverStyle);
 			
 			GUIStyle scoreStyle = new GUIStyle();
 			scoreStyle.normal.textColor = Color.white;
