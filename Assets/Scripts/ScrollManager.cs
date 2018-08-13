@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 //Transform:{
 // 	position,
@@ -88,7 +89,14 @@ public class ScrollManager : MonoBehaviour {
 
             PossiblyIncreaseDifficulty();
         }
-	}
+        if (gameOver)
+        {
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            }
+        }
+    }
 
     private void PossiblyIncreaseDifficulty()
     {
@@ -146,7 +154,7 @@ public class ScrollManager : MonoBehaviour {
 			gameOverStyle.fontSize = 64;
 			gameOverStyle.fontStyle = FontStyle.Bold;
 			gameOverStyle.alignment = TextAnchor.LowerCenter;
-			GUI.Label(new Rect(Screen.width / 2, Screen.height / 2, 100, 20), "You Are Now\nStrapped To A Corpse", gameOverStyle);
+			GUI.Label(new Rect(Screen.width / 2, Screen.height / 2, 100, 20), "You Are Now\nStrapped To A Corpse\n(R to restart)", gameOverStyle);
 			
 			GUIStyle scoreStyle = new GUIStyle();
 			scoreStyle.normal.textColor = Color.white;
