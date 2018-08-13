@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour {
 
 	public int health;
 	public int damage;
+	public GameObject spellBlastPrefab;
 
 	private ScrollManager scrollManager;
 	private BackpackController backpackController;
@@ -33,12 +34,12 @@ public class Enemy : MonoBehaviour {
 
 			bool spellCast = backpackController.ConsumeMana(ManaPerAttack);
 			if(spellCast) {
-				// TODO: play animation
+				Instantiate(spellBlastPrefab, GameObject.Find("hero").transform.position + new Vector3(0, 0.5f, -3), Quaternion.identity);
 				Debug.Log("Enemy died from spell!");
 				scrollManager.Resume();
 				GameObject.Destroy(this.gameObject);
 			} else if(enemyTurn) {
-				// TODO: play animation
+				this.GetComponentInChildren<Animation>().Play("Attack");
 				Debug.Log("Hero took " + this.damage + " damage!");
 				bool stillAlive = backpackController.ConsumeHealth(this.damage);
 				if(!stillAlive) {
@@ -50,7 +51,7 @@ public class Enemy : MonoBehaviour {
 				}
 				enemyTurn = false;
 			} else {
-				// TODO: play animation
+				GameObject.Find("hero").GetComponentInChildren<Animator>().SetTrigger("Attack");
 				bool strongHit = backpackController.ConsumeStamina(StaminaPerAttack);
 				if(strongHit) {
 					Debug.Log("Hero spent " + StaminaPerAttack + " stamina to do 2 damage!");
@@ -61,7 +62,6 @@ public class Enemy : MonoBehaviour {
 				}
 
 				if(this.health <= 0) {
-					// TODO: play animation
 					Debug.Log("Enemy died from attack!");
 					scrollManager.Resume();
 					GameObject.Destroy(this.gameObject);
@@ -76,7 +76,7 @@ public class Enemy : MonoBehaviour {
 			Debug.Log("Battle started!");
 			scrollManager.Pause();
 			this.battling = true;
-			this.lastAction = Time.time;
+			this.lastAction = Time.time - turnLength;
 		}
 	}
 }
