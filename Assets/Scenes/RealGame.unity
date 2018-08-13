@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
+  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1886,11 +1886,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollSpeed: 3
-  enemyChance: 0.003
+  enemyChance: 0.002
   chestChance: 0.015
-  metersUntilDifficultyIncrease: 200
-  enemyIncreaseAmount: 1.05
-  chestIncreaseAmount: 1.15
+  metersUntilDifficultyIncrease: 100
+  enemyIncreaseAmount: 1.2
+  chestIncreaseAmount: 1.2
   pitchIncreaseAmount: 1.1
   dirtstripPrefabs:
   - {fileID: 1452377876153438, guid: 5177178f138a44773a64c6cf289ae09b, type: 2}
@@ -1913,6 +1913,7 @@ MonoBehaviour:
   - {fileID: 1303133264297000, guid: 3d6d2019cfa71488495d1810cc63c679, type: 2}
   enemyPrefabs:
   - {fileID: 1972211550828774, guid: 6afcae6867d9fe249b689a5e94452919, type: 2}
+  - {fileID: 1388571956422802, guid: 0715e262553cda64dbcc6780b9c2d35d, type: 2}
   - {fileID: 1388571956422802, guid: 0715e262553cda64dbcc6780b9c2d35d, type: 2}
   chestPrefab: {fileID: 1930341830964444, guid: d1db206ca5255e747bba71ea3f92cb60,
     type: 2}
