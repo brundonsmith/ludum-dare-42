@@ -107,6 +107,7 @@ MonoBehaviour:
   sound: {fileID: 8300000, guid: dde66a6b4280ae242a896ecb3c4b52ac, type: 3}
   soundOfLoss: {fileID: 8300000, guid: 17759e108d72b0a48a99f6016a8de300, type: 3}
   soundOfConsumption: {fileID: 0}
+  isBeingDragged: 0
   healthBoost: 0
   manaBoost: 0
   staminaBoost: 0
@@ -145,7 +146,7 @@ SpriteRenderer:
   m_SortingLayerID: 243734353
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 4aad09fb910ee864891ae794173dd366, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 8e33e01545d8af544b9ea02ca630d795, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
