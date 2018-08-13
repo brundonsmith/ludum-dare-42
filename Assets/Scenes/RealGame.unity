@@ -1888,9 +1888,9 @@ MonoBehaviour:
   scrollSpeed: 3
   enemyChance: 0.003
   chestChance: 0.015
-  metersUntilDifficultyIncrease: 50
-  enemyIncreaseAmount: 1.3
-  chestIncreaseAmount: 1.27
+  metersUntilDifficultyIncrease: 200
+  enemyIncreaseAmount: 1.05
+  chestIncreaseAmount: 1.15
   pitchIncreaseAmount: 1.1
   dirtstripPrefabs:
   - {fileID: 1452377876153438, guid: 5177178f138a44773a64c6cf289ae09b, type: 2}
