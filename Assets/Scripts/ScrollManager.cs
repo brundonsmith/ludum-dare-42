@@ -12,6 +12,8 @@ using UnityEngine;
 
 public class ScrollManager : MonoBehaviour {
 
+	public readonly static int GoldWorth = 100; // how many points is each pile of gold coins worth?
+
 	public float scrollSpeed;
 	public float enemyChance;
 	public float chestChance;
@@ -19,7 +21,6 @@ public class ScrollManager : MonoBehaviour {
 	public GameObject[] dirtstripPrefabs;
 	public GameObject[] enemyPrefabs;
 	public GameObject chestPrefab;
-    public int pointsPerGold = 100; // how many points is each pile of gold coins worth?
 
 	private GameObject hero;
 	private GameObject dirt_container;
@@ -114,7 +115,8 @@ public class ScrollManager : MonoBehaviour {
 			style.normal.textColor = Color.black;
 			style.fontSize = 24;
 			style.fontStyle = FontStyle.Bold;
-			GUI.Label(new Rect(10, 10, 100, 20), "Score: " + Score(), style);
+			GUI.Label(new Rect(10, 10, 100, 20), "Distance: " + Mathf.Round(metersMoved), style);
+			GUI.Label(new Rect(10, 30, 100, 20), "Gold (100 each): " + GoldWorth * backpackController.TotalGold(), style);
 		} else {
 			GUIStyle gameOverStyle = new GUIStyle();
 			gameOverStyle.normal.textColor = Color.red;
@@ -128,12 +130,12 @@ public class ScrollManager : MonoBehaviour {
 			scoreStyle.fontSize = 32;
 			scoreStyle.fontStyle = FontStyle.Bold;
 			scoreStyle.alignment = TextAnchor.LowerCenter;
-			GUI.Label(new Rect(Screen.width / 2, Screen.height / 2 + 30, 100, 20), "Score: " + Mathf.Round(metersMoved), scoreStyle);
+			GUI.Label(new Rect(Screen.width / 2, Screen.height / 2 + 30, 100, 20), "Score: " + Score(), scoreStyle);
 		}
 	}
 
     private int Score()
     {
-        return (int)Mathf.Round(metersMoved) + backpackController.TotalGold() * pointsPerGold;
+        return (int)Mathf.Round(metersMoved) + backpackController.TotalGold() * GoldWorth;
     }
 }
