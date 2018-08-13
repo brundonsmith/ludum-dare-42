@@ -43,9 +43,12 @@ public class Enemy : MonoBehaviour {
 				bool stillAlive = backpackController.ConsumeHealth(this.damage);
 				if(!stillAlive) {
 					this.battling = false;
-					GameObject.Destroy(GameObject.Find("hero"));
+					GameObject.Find("hero").transform.rotation = Quaternion.Euler(0, 0, 180);
+					GameObject.Find("hero").transform.position += new Vector3(0, 0.6f, 0);
+					scrollManager.GameOver();
 					Debug.Log("Game Over");
 				}
+				enemyTurn = false;
 			} else {
 				// TODO: play animation
 				bool strongHit = backpackController.ConsumeStamina(StaminaPerAttack);
@@ -63,6 +66,7 @@ public class Enemy : MonoBehaviour {
 					scrollManager.Resume();
 					GameObject.Destroy(this.gameObject);
 				}
+				enemyTurn = true;
 			}			
 		}
 	}
