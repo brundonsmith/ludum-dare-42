@@ -106,6 +106,7 @@ MonoBehaviour:
   - {fileID: 1036562652892756, guid: 52d850a12c52efb4cb2b03f48bcd305e, type: 2}
   - {fileID: 1913567198601666, guid: e001bc706eef0ff42bca5798b684452e, type: 2}
   - {fileID: 1913567198601666, guid: 0d91ac7187d7df04f8c1a5cecd8c7669, type: 2}
+  - {fileID: 1913567198601666, guid: 70a70d454e37dab4697bd32380cc8630, type: 2}
 --- !u!212 &212951462648505152
 SpriteRenderer:
   m_ObjectHideFlags: 1
