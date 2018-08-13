@@ -25,6 +25,7 @@ public class ScrollManager : MonoBehaviour {
 	private GameObject dirt_container;
     private BackpackController backpackController;
 	private bool paused = false;
+	private bool gameOver = false;
 
 	private float metersMoved = 0;
 
@@ -37,7 +38,7 @@ public class ScrollManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		if(!paused) {
+		if(!paused && !gameOver) {
 			
 			// move everything along and possible create/delete strips
 			Transform[] dirt_strips = dirt_container.GetComponentsInChildren<Transform>();
@@ -95,6 +96,10 @@ public class ScrollManager : MonoBehaviour {
 		hero.GetComponent<Animator>().speed = 1;
 	}
 
+	public void GameOver() {
+		this.gameOver = true;
+	}
+
 	private float getMovement() {
 		return Time.deltaTime * scrollSpeed;
 	}
@@ -104,11 +109,27 @@ public class ScrollManager : MonoBehaviour {
 	}
 
 	void OnGUI() {
-		GUIStyle style = new GUIStyle();
-		style.normal.textColor = Color.black;
-		style.fontSize = 24;
-		style.fontStyle = FontStyle.Bold;
-		GUI.Label(new Rect(10, 10, 100, 20), "Score: " + Score(), style);
+		if(!gameOver) {
+			GUIStyle style = new GUIStyle();
+			style.normal.textColor = Color.black;
+			style.fontSize = 24;
+			style.fontStyle = FontStyle.Bold;
+			GUI.Label(new Rect(10, 10, 100, 20), "Score: " + Score(), style);
+		} else {
+			GUIStyle gameOverStyle = new GUIStyle();
+			gameOverStyle.normal.textColor = Color.red;
+			gameOverStyle.fontSize = 72;
+			gameOverStyle.fontStyle = FontStyle.Bold;
+			gameOverStyle.alignment = TextAnchor.LowerCenter;
+			GUI.Label(new Rect(Screen.width / 2, Screen.height / 2, 100, 20), "Game Over", gameOverStyle);
+			
+			GUIStyle scoreStyle = new GUIStyle();
+			scoreStyle.normal.textColor = Color.white;
+			scoreStyle.fontSize = 32;
+			scoreStyle.fontStyle = FontStyle.Bold;
+			scoreStyle.alignment = TextAnchor.LowerCenter;
+			GUI.Label(new Rect(Screen.width / 2, Screen.height / 2 + 30, 100, 20), "Score: " + Mathf.Round(metersMoved), scoreStyle);
+		}
 	}
 
     private int Score()
