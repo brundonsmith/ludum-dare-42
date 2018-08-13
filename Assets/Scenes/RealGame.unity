@@ -1275,7 +1275,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.332
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -1883,6 +1883,10 @@ MonoBehaviour:
   scrollSpeed: 3
   enemyChance: 0.003
   chestChance: 0.015
+  metersUntilDifficultyIncrease: 50
+  enemyIncreaseAmount: 1.3
+  chestIncreaseAmount: 1.27
+  pitchIncreaseAmount: 1.1
   dirtstripPrefabs:
   - {fileID: 1452377876153438, guid: 5177178f138a44773a64c6cf289ae09b, type: 2}
   - {fileID: 1622011502035254, guid: ec3b93d0112ba441ea1285eae0709968, type: 2}

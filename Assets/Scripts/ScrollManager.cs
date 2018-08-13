@@ -14,9 +14,13 @@ public class ScrollManager : MonoBehaviour {
 
 	public readonly static int GoldWorth = 100; // how many points is each pile of gold coins worth?
 
-	public float scrollSpeed;
+    public float scrollSpeed;
 	public float enemyChance;
-	public float chestChance;
+    public float chestChance;
+    public float metersUntilDifficultyIncrease = 50; // the difficulty increases by one notch every ___ meters
+    public float enemyIncreaseAmount = 1.3F; // each time the difficulty increases, multiply enemyChance and scrollSpeed by this amount
+    public float chestIncreaseAmount = 1.27F; // each time the difficulty increases, multiply chestChance by this amount
+    public float pitchIncreaseAmount = 1.1F; // each time the difficulty increases, increase the pitch of the music by this amount
 
 	public GameObject[] dirtstripPrefabs;
 	public GameObject[] enemyPrefabs;
@@ -24,17 +28,20 @@ public class ScrollManager : MonoBehaviour {
 
 	private GameObject hero;
 	private GameObject dirt_container;
+    private GameObject music;
     private BackpackController backpackController;
 	private bool paused = false;
 	private bool gameOver = false;
 
 	private float metersMoved = 0;
+    private float lastCheckpoint = 0; // used for notching up the difficulty
 
 	// Use this for initialization
 	void Start () {
 		hero = GameObject.Find("hero");
 		dirt_container = GameObject.Find("dirt_container");
         backpackController = GameObject.Find("Backpack").GetComponent<BackpackController>();
+        music = GameObject.Find("Music");
     }
 
 	// Update is called once per frame
@@ -78,10 +85,25 @@ public class ScrollManager : MonoBehaviour {
 			}
 
 			metersMoved += getMovement();
-		}
+
+            PossiblyIncreaseDifficulty();
+        }
 	}
 
-	void createDirtStrip(float positionChange){
+    private void PossiblyIncreaseDifficulty()
+    {
+        if (metersMoved > lastCheckpoint + metersUntilDifficultyIncrease)
+        {
+            lastCheckpoint = lastCheckpoint + metersUntilDifficultyIncrease;
+            enemyChance *= enemyIncreaseAmount;
+            scrollSpeed *= enemyIncreaseAmount;
+            chestChance *= chestIncreaseAmount;
+            AudioSource musicSource = music.GetComponent<AudioSource>();
+            musicSource.pitch *= pitchIncreaseAmount;
+        }
+    }
+
+    void createDirtStrip(float positionChange){
 		GameObject new_dirt_strip = GameObject.Instantiate(randomElement(dirtstripPrefabs));
 		new_dirt_strip.transform.parent = dirt_container.transform;
 		new_dirt_strip.transform.localPosition = new Vector3(positionChange, 0, 0);
@@ -123,7 +145,7 @@ public class ScrollManager : MonoBehaviour {
 			gameOverStyle.fontSize = 72;
 			gameOverStyle.fontStyle = FontStyle.Bold;
 			gameOverStyle.alignment = TextAnchor.LowerCenter;
-			GUI.Label(new Rect(Screen.width / 2, Screen.height / 2, 100, 20), "Game Over", gameOverStyle);
+			GUI.Label(new Rect(Screen.width / 2, Screen.height / 2, 100, 20), "You Are Strapped To A Corpse", gameOverStyle);
 			
 			GUIStyle scoreStyle = new GUIStyle();
 			scoreStyle.normal.textColor = Color.white;
